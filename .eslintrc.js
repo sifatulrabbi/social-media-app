@@ -12,5 +12,6 @@ module.exports = {
         'valid-jsdoc': 'off',
         'indent': 'off',
         'space-before-function-paren': 'off',
+        'new-cap': 'off',
     },
 };
