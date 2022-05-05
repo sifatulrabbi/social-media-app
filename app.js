@@ -15,6 +15,7 @@ const app = express();
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
+const profilesRouter = require('./routes/profile');
 
 /* Middlewares */
 app.use(logger('dev'));
@@ -33,5 +34,20 @@ passport.deserializeUser(deserializer);
 app.use('/api/v1', indexRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/profiles', profilesRouter);
+// app.use('/api/v1/likes');
+// app.use('/api/v1/comments');
+// app.use('/api/v1/connections');
+// app.use('/api/v1/share');
+
+/* Error handler */
+app.use((err, req, res, next) => {
+    if (err) {
+        console.error(err);
+        res.status(404).json({success: false, message: 'Bad request'});
+    } else {
+        next();
+    }
+});
 
 module.exports = app;
