@@ -9,12 +9,12 @@ const {
     deserializer,
 } = require('./lib/services/authService');
 
+const app = express();
+
 // Routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
-
-const app = express();
 
 /* Middlewares */
 app.use(logger('dev'));
