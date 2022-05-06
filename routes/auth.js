@@ -1,6 +1,6 @@
 const passport = require('passport');
 const router = require('express').Router();
-const User = require('../lib/models').User;
+const {User} = require('../lib/models');
 
 /**
  * LOGIN route
