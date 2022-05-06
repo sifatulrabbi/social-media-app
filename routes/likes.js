@@ -1,28 +1,5 @@
-const Like = require('../lib/models').Like;
+const {Like, User} = require('../lib/models');
 const router = require('express').Router();
-
-/**
- * Get all the likes of a Post
- */
-router.get('/all/:postId', async (req, res, next) => {
-    try {
-        const postId = req.params.postId;
-        // Get all the likes with the postId
-        const likes = await Like.findAll({
-            where: {
-                postId: postId,
-            },
-        });
-        // Send response
-        res.status(200).json({
-            success: true,
-            data: likes,
-            count: likes.length,
-        });
-    } catch (err) {
-        next(err);
-    }
-});
 
 /**
  * Create a like
@@ -36,6 +13,21 @@ router.post('/', async (req, res, next) => {
         });
         // Send response
         res.status(200).json({success: true, data: like});
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * Get all the likes of a post
+ */
+router.get('/?post=', async (req, res, next) => {
+    try {
+        const likes = await Like.findAll({
+            include: [User],
+        });
+        // Send response
+        res.status(200).json({success: true, data: likes});
     } catch (err) {
         next(err);
     }

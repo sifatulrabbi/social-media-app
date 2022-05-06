@@ -19,25 +19,4 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-/**
- * GET comments of a post
- */
-router.get('/posts/:id', async (req, res, next) => {
-    try {
-        const comments = await Comment.findAll({
-            where: {
-                postId: req.params.id,
-            },
-        });
-        // Send response
-        res.status(200).json({
-            success: false,
-            data: comments,
-            count: comments.length,
-        });
-    } catch (err) {
-        next(err);
-    }
-});
-
 module.exports = router;

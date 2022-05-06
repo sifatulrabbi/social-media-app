@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const profilesService = require('../lib/services/profileService');
+const Profile = require('../lib/models').Profile;
 
 /**
  * Create a profile
@@ -9,7 +9,7 @@ router.post('/', async (req, res, next) => {
         // get the user input
         const {bio, education, userId} = req.body;
         // create user profile
-        const profile = await profilesService.createProfile({
+        const profile = await Profile.create({
             bio,
             education,
             userId,
@@ -27,10 +27,28 @@ router.post('/', async (req, res, next) => {
  */
 router.get('/get?id=&&userId=', async (req, res, next) => {
     try {
-        const profile = await profilesService.getProfile(
-            req.query.id,
-            req.query.userId,
-        );
+        let profile = null;
+
+        // get the profile with either profile id or user id
+        if (req.query.id) {
+            profile = (
+                await Profile.findAll({
+                    where: {
+                        id: req.query.id,
+                    },
+                })
+            )[0];
+        } else if (req.query.userId) {
+            profile = (
+                await Profile.findAll({
+                    where: {
+                        userId: req.query.userId,
+                    },
+                })
+            )[0];
+        }
+
+        // Check for the profile's existence
         if (profile) {
             res.status(200).json({success: true, data: profile});
         } else {
