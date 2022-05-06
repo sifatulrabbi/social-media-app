@@ -15,7 +15,10 @@ const app = express();
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
-const profilesRouter = require('./routes/profile');
+const profilesRouter = require('./routes/profiles');
+const likesRouter = require('./routes/likes');
+const commentsRouter = require('./routes/comments');
+const sharesRouter = require('./routes/shares');
 
 /* Middlewares */
 app.use(logger('dev'));
@@ -35,10 +38,9 @@ app.use('/api/v1', indexRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/profiles', profilesRouter);
-// app.use('/api/v1/likes');
-// app.use('/api/v1/comments');
-// app.use('/api/v1/connections');
-// app.use('/api/v1/share');
+app.use('/api/v1/shares', sharesRouter);
+app.use('/api/v1/likes', likesRouter);
+app.use('/api/v1/comments', commentsRouter);
 
 /* Error handler */
 app.use((err, req, res, next) => {

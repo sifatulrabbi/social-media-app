@@ -53,3 +53,5 @@ router.get('/posts/:postId', async (req, res, next) => {
         next(err);
     }
 });
+
+module.exports = router;

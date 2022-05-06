@@ -22,8 +22,6 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-module.exports = router;
-
 /**
  * GET a profile with id or userId
  */
@@ -45,3 +43,5 @@ router.get('/get?id=&&userId=', async (req, res, next) => {
         next(err);
     }
 });
+
+module.exports = router;
