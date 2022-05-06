@@ -1,4 +1,4 @@
-const Share = require('../lib/models').Share;
+const Share = require('../models').Share;
 const router = require('express').Router();
 
 /**
@@ -15,40 +15,6 @@ router.post('/', async (req, res, next) => {
         });
         // Send response
         res.status(200).json({success: true, data: share});
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
- * Get shares of a user
- */
-router.get('/users/:userId', async (req, res, next) => {
-    try {
-        const shares = await Share.findAll({
-            where: {
-                userId: req.params.userId,
-            },
-        });
-        // Send response
-        res.status(200).json({success: true, data: shares});
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
- * Get shares of a post
- */
-router.get('/posts/:postId', async (req, res, next) => {
-    try {
-        const shares = await Share.findAll({
-            where: {
-                postId: req.params.postId,
-            },
-        });
-        // Send response
-        res.status(200).json({success: true, data: shares});
     } catch (err) {
         next(err);
     }

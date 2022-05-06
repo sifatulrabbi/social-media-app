@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Profile = require('../lib/models').Profile;
+const {Profile, Media} = require('../models');
 
 /**
  * Create a profile
@@ -25,28 +25,17 @@ router.post('/', async (req, res, next) => {
 /**
  * GET a profile with id or userId
  */
-router.get('/get?id=&&userId=', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
         let profile = null;
 
         // get the profile with either profile id or user id
-        if (req.query.id) {
-            profile = (
-                await Profile.findAll({
-                    where: {
-                        id: req.query.id,
-                    },
-                })
-            )[0];
-        } else if (req.query.userId) {
-            profile = (
-                await Profile.findAll({
-                    where: {
-                        userId: req.query.userId,
-                    },
-                })
-            )[0];
-        }
+        profile = await Profile.findOne({
+            where: {
+                id: req.params.id,
+            },
+            include: Media,
+        });
 
         // Check for the profile's existence
         if (profile) {
@@ -57,6 +46,30 @@ router.get('/get?id=&&userId=', async (req, res, next) => {
                 message: 'Profile not found',
             });
         }
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * Add to an organization
+ */
+router.patch('/:id/organization', async (req, res, next) => {
+    try {
+        const {orgId} = req.body;
+        const profile = await Profile.findByPk(req.params.id);
+        if (!profile) {
+            res.status(404).json({
+                success: false,
+                message: 'Profile not found',
+            });
+            return;
+        }
+
+        const updatedProfile = await profile.update({
+            orgId: orgId,
+        });
+        res.status(200).json({success: true, data: updatedProfile});
     } catch (err) {
         next(err);
     }

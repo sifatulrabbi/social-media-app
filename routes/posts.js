@@ -1,15 +1,15 @@
 const router = require('express').Router();
-const {Post, Comment, Like, Share} = require('../lib/models');
+const {Post, Comment, Like, Share, Media} = require('../models');
 
 /**
  * Create a new post
  */
 router.post('/', async (req, res, next) => {
     try {
-        const {body} = req.body;
+        const {body, userId} = req.body;
         const post = await Post.create({
-            body: body,
-            mediaSource: 'sample-source',
+            body,
+            userId,
         });
         // Send response
         res.status(200).json({success: true, data: post});
@@ -21,20 +21,20 @@ router.post('/', async (req, res, next) => {
 /**
  * GET a post
  */
-router.post('/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        const post = await Post.findAll({
+        const post = await Post.findOne({
             where: {
                 id: req.params.id,
             },
-            include: [Comment, Like, Share],
+            include: [Media, Comment, Like, Share],
         });
         // Send response
         // Check for the post's existence
         if (!post) {
             res.status(404).json({success: false, message: 'Post not found'});
         } else {
-            res.status(200).json({success: true, data: post[0]});
+            res.status(200).json({success: true, data: post});
         }
     } catch (err) {
         next(err);
@@ -44,7 +44,7 @@ router.post('/:id', async (req, res, next) => {
 /**
  * GET all posts
  */
-router.post('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const posts = await Post.findAll({
             include: [Comment, Like, Share],

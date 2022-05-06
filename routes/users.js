@@ -1,18 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {User, Connection} = require('../lib/models');
-
-/**
- * GET user function
- */
-async function getUser(id) {
-    const user = await User.findOne({
-        where: {
-            id: id,
-        },
-    });
-    return user;
-}
+const {User, Connection, Profile, Media} = require('../models');
+const {verifyUser} = require('../middlewares/verifyUser');
 
 /**
  * GET all the users
@@ -29,38 +18,27 @@ router.get('/', async (req, res, next) => {
 /**
  * GET one by id
  */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', verifyUser, (req, res, next) => {
     try {
-        const user = await getUser(req.params.id);
-        // Check for the user's existence
-        if (!user) {
-            res.status(404).json({success: true, message: 'User not found'});
-        } else {
-            // Send response
-            res.status(200).json({success: true, data: user[0]});
-        }
+        // Send response
+        res.status(200).json({success: true, data: req.user});
     } catch (err) {
         next(err);
     }
 });
 
 /**
- * GET all posts of a user
+ * GET all posts and shares of a user
  */
-router.get('/:id/posts', async (req, res, next) => {
+router.get('/:id/posts', verifyUser, async (req, res, next) => {
     try {
-        const user = await getUser(req.params.id);
-        // Check the user
-        if (!user) {
-            res.status(404).json({success: false, message: 'User not found'});
-            return;
-        }
+        // TODO: restructure the share system
+
         // get all the posts and shares
-        const posts = await user.getPost();
-        const shares = await user.getShare();
-        const sharedPosts = await shares.getPost();
+        const posts = await req.user.getPosts();
+
         // Send response
-        res.status(200).json({success: true, data: [...posts, ...sharedPosts]});
+        res.status(200).json({success: true, data: posts});
     } catch (err) {
         next(err);
     }
@@ -69,16 +47,13 @@ router.get('/:id/posts', async (req, res, next) => {
 /**
  * GET profile of an user
  */
-router.get('/:id/profile', async (req, res, next) => {
+router.get('/:id/profile', verifyUser, async (req, res, next) => {
     try {
-        const user = await getUser(req.params.id);
-        // Check for user
-        if (!user) {
-            res.status(404).json({success: false, message: 'User not found'});
-            return;
-        }
         // Get the user's profile
-        const profile = await user.getProfile();
+        const profile = await Profile.findOne({
+            userId: req.user.id,
+            include: Media,
+        });
         // Check for the profile
         if (!profile) {
             res.status(404).json({
@@ -97,16 +72,10 @@ router.get('/:id/profile', async (req, res, next) => {
 /**
  * GET user connections
  */
-router.get('/:id/connections', async (req, res, next) => {
+router.get('/:id/connections', verifyUser, async (req, res, next) => {
     try {
-        const user = await getUser(req.params.id);
-        // Check for user
-        if (!user) {
-            res.status(404).json({success: false, message: 'User not found'});
-            return;
-        }
         // Get the user's connections
-        const connections = await user.getConnection();
+        const connections = await req.user.getConnection();
         // Send response
         res.status(200).json({success: true, data: connections});
     } catch (err) {
@@ -117,15 +86,8 @@ router.get('/:id/connections', async (req, res, next) => {
 /**
  * Create user connections
  */
-router.post('/:id/connections', async (req, res, next) => {
+router.post('/:id/connections', verifyUser, async (req, res, next) => {
     try {
-        const user = await getUser(req.params.id);
-        // Check for user
-        if (!user) {
-            res.status(404).json({success: false, message: 'User not found'});
-            return;
-        }
-
         const {connectedWith} = req.body;
         // Create the connection
         const connection = await Connection.create({
@@ -134,6 +96,25 @@ router.post('/:id/connections', async (req, res, next) => {
         });
         // Send response
         res.status(200).json({success: true, data: connection});
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * Create user profile
+ */
+router.post('/:id/profile', verifyUser, async (req, res, next) => {
+    try {
+        const {bio, education} = req.body;
+        const profile = await Profile.create({
+            userId: req.params.id,
+            bio,
+            education,
+            media: 'media-source',
+        });
+        // Send response
+        res.status(200).json({success: true, data: profile});
     } catch (err) {
         next(err);
     }

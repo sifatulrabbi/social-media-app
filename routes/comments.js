@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Comment = require('../lib/models').Comment;
+const Comment = require('../models').Comment;
 
 /**
  * Create a comment

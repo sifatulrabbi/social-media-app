@@ -1,7 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const User = require('../models').User;
-const userService = require('./userService');
+const User = require('./models').User;
 
 const localStrategy = new LocalStrategy(
     {
@@ -16,7 +15,7 @@ const localStrategy = new LocalStrategy(
  */
 async function verify(email, password, done) {
     try {
-        const user = await User.findAll({
+        const user = await User.findOne({
             where: {
                 email: email,
             },
@@ -57,7 +56,7 @@ module.exports.serializer = function (user, done) {
  */
 module.exports.deserializer = async function (id, done) {
     try {
-        const user = await userService.findUserById(id);
+        const user = await User.findOne({where: {id: id}});
         done(null, user);
     } catch (err) {
         console.error('Error while deserializing the user: ', err);

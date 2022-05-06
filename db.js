@@ -1,5 +1,5 @@
 const {Sequelize} = require('sequelize');
-const config = require('../config');
+const config = require('./config');
 
 // Passing parameters separately (other dialects)
 const sequelize = new Sequelize(

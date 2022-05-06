@@ -3,28 +3,25 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
-const {
-    localStrategy,
-    serializer,
-    deserializer,
-} = require('./lib/services/authService');
+const {localStrategy, serializer, deserializer} = require('./auth');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 // Routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
 const profilesRouter = require('./routes/profiles');
+const postsRouter = require('./routes/posts');
 const likesRouter = require('./routes/likes');
 const commentsRouter = require('./routes/comments');
 const sharesRouter = require('./routes/shares');
 
 /* Middlewares */
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({origin: '*'})); // allowing all the origin
 
 /* Initialize passport */
@@ -36,8 +33,8 @@ passport.deserializeUser(deserializer);
 /* Routes */
 app.use('/api/v1', indexRouter);
 app.use('/api/v1/users', usersRouter);
-app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/profiles', profilesRouter);
+app.use('/api/v1/posts', postsRouter);
 app.use('/api/v1/shares', sharesRouter);
 app.use('/api/v1/likes', likesRouter);
 app.use('/api/v1/comments', commentsRouter);

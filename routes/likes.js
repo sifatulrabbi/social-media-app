@@ -1,4 +1,4 @@
-const {Like} = require('../lib/models');
+const {Like} = require('../models');
 const router = require('express').Router();
 
 /**

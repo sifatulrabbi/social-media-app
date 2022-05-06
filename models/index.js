@@ -6,10 +6,10 @@ const tables = {
     Organization: require('./Organization').Organization,
     Like: require('./Like').Like,
     Comment: require('./Comment').Comment,
-    Media: require('./Media').Media,
     Profile: require('./Profile').Profile,
     Connection: require('./Connection').Connection,
     Share: require('./Share').Share,
+    Media: require('./Media').Media,
 };
 
 /**
@@ -41,25 +41,9 @@ tables.User.hasMany(tables.Comment, {
 });
 
 // User 1-n Post
-tables.User.hasOne(tables.Post, {
+tables.User.hasMany(tables.Post, {
     foreignKey: {
         name: 'userId',
-        allowNull: false,
-    },
-});
-
-// Media 1-1 Profile
-tables.Media.hasOne(tables.Profile, {
-    foreignKey: {
-        name: 'mediaId',
-        allowNull: false,
-    },
-});
-
-// Media 1-1 Post
-tables.Media.hasOne(tables.Post, {
-    foreignKey: {
-        name: 'mediaId',
         allowNull: false,
     },
 });
@@ -101,6 +85,22 @@ tables.User.hasOne(tables.Connection, {
     foreignKey: {
         name: 'userId',
         allowNull: false,
+    },
+});
+
+// Media 1-1 Profile
+tables.Profile.hasOne(tables.Media, {
+    foreignKey: {
+        name: 'profileId',
+        allowNull: true,
+    },
+});
+
+// Media 1-1 Post
+tables.Post.hasOne(tables.Media, {
+    foreignKey: {
+        name: 'postId',
+        allowNull: true,
     },
 });
 
