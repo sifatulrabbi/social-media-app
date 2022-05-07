@@ -1,5 +1,6 @@
 const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
+const {Media} = require('./Media');
 
 /* Define Profile model */
 const Profile = db.define(
@@ -21,5 +22,11 @@ const Profile = db.define(
     },
     {timestamps: true},
 );
+
+// Associations
+// Profile 1-1 media
+Profile.hasOne(Media, {
+    foreignKey: 'profileId',
+});
 
 module.exports.Profile = Profile;

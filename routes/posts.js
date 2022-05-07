@@ -11,8 +11,12 @@ router.post('/', async (req, res, next) => {
             body,
             userId,
         });
+
         // Send response
-        res.status(200).json({success: true, data: post});
+        res.status(200).json({
+            success: true,
+            data: post,
+        });
     } catch (err) {
         next(err);
     }

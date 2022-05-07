@@ -14,10 +14,41 @@ router.post('/', async (req, res, next) => {
             education,
             userId,
         });
+
         // send response
         res.status(200).json({success: false, data: profile});
     } catch (err) {
         // handle errors
+        next(err);
+    }
+});
+
+/**
+ * Update a profile
+ */
+router.put('/:id', async (req, res, next) => {
+    try {
+        const profile = await Profile.findByPk(req.params.id);
+        // verify profile's availability
+        if (!profile) {
+            return res.status(404).json({
+                success: false,
+                message: 'Profile not found',
+            });
+        }
+
+        // Get the updating data
+        const {bio, education} = req.body;
+
+        if (bio) profile.bio = bio;
+        if (education) profile.education = education;
+
+        // save the updated profile
+        const updatedProfile = await profile.save();
+
+        // Send response
+        res.status(200).json({success: true, data: updatedProfile});
+    } catch (err) {
         next(err);
     }
 });

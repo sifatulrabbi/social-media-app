@@ -18,23 +18,4 @@ const Media = db.define('media', {
     },
 });
 
-// Associations
-Media.associations = function (models) {
-    // Media 1-1 Post
-    models.Post.hasOne(Model, {
-        foreignKey: {
-            name: 'postId',
-            allowNull: true,
-        },
-    });
-
-    // Media 1-1 Profile
-    models.Profile.hasOne(tables.Media, {
-        foreignKey: {
-            name: 'profileId',
-            allowNull: true,
-        },
-    });
-};
-
 module.exports.Media = Media;

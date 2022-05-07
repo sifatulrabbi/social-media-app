@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const {User, Connection, Profile, Media} = require('../models');
+const {
+    User,
+    Connection,
+    Profile,
+    Media,
+    Post,
+    Like,
+    Share,
+    Comment,
+} = require('../models');
 const {verifyUser} = require('../middlewares/verifyUser');
 
 /**
@@ -35,7 +44,25 @@ router.get('/:id/posts', verifyUser, async (req, res, next) => {
         // TODO: restructure the share system
 
         // get all the posts and shares
-        const posts = await req.user.getPosts();
+        const posts = await Post.findAll({
+            where: {
+                userId: req.user.id,
+            },
+            include: [Share, Media, Comment, Like],
+        });
+
+        const shares = await Share.findAll({
+            where: {id: req.user.id},
+        });
+
+        for (const {postId} of shares) {
+            // find all the posts
+            const post = await Post.findOne({
+                where: {id: postId},
+                include: [Comment, Share, Like, Media],
+            });
+            posts.push(post);
+        }
 
         // Send response
         res.status(200).json({success: true, data: posts});

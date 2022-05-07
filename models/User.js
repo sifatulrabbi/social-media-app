@@ -1,5 +1,11 @@
 const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
+const {Comment} = require('./Comment');
+const {Like} = require('./Like');
+const {Profile} = require('./Profile');
+const {Post} = require('./Post');
+const {Connection} = require('./Connection');
+const {Share} = require('./Share');
 
 /* Define User model. */
 const User = db.define(
@@ -32,54 +38,52 @@ const User = db.define(
 );
 
 // Associations
-User.associations = function (models) {
-    // User 1-1 Profile
-    User.hasOne(models.Profile, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false,
-        },
-    });
+// User 1-1 Profile
+User.hasOne(Profile, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false,
+    },
+});
 
-    // User 1-n Like
-    User.hasMany(models.Like, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false,
-        },
-    });
+// User 1-n Like
+User.hasMany(Like, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false,
+    },
+});
 
-    // User 1-n Comment
-    User.hasMany(models.Comment, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false,
-        },
-    });
+// User 1-n Comment
+User.hasMany(Comment, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false,
+    },
+});
 
-    // User 1-n Post
-    User.hasMany(models.Post, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false,
-        },
-    });
+// User 1-n Post
+User.hasMany(Post, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false,
+    },
+});
 
-    // User 1-1 Share
-    User.hasMany(models.Share, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false,
-        },
-    });
+// User 1-1 Share
+User.hasMany(Share, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false,
+    },
+});
 
-    // User 1-n Connection
-    User.hasMany(models.Connection, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false,
-        },
-    });
-};
+// User 1-n Connection
+User.hasMany(Connection, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false,
+    },
+});
 
 module.exports.User = User;

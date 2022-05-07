@@ -1,5 +1,6 @@
 const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
+const {Profile} = require('./Profile');
 
 /* Define Organization model. */
 const Organization = db.define(
@@ -23,14 +24,12 @@ const Organization = db.define(
 );
 
 // Associations
-Organization.associations = (models) => {
-    // Organization 1-n Profiles
-    Organization.hasMany(models.profiles, {
-        foreignKey: {
-            name: 'orgId',
-            allowNull: true,
-        },
-    });
-};
+// Organization 1-n Profile
+Organization.hasMany(Profile, {
+    foreignKey: {
+        name: 'orgId',
+        allowNull: true,
+    },
+});
 
 module.exports.Organization = Organization;

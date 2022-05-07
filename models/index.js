@@ -20,8 +20,8 @@ const tables = {
         // Only for testing purpose.
         // This will recreate all the tables
         // every time the application is restarted.
-        await db.sync({alter: true});
-        // await db.sync();
+        // await db.sync({alter: true});
+        await db.sync();
 
         console.debug('\nSynchronized all the tables');
     } catch (err) {
