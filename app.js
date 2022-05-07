@@ -16,6 +16,7 @@ const postsRouter = require('./routes/posts');
 const likesRouter = require('./routes/likes');
 const commentsRouter = require('./routes/comments');
 const sharesRouter = require('./routes/shares');
+const mediaRouter = require('./routes/media');
 
 /* Middlewares */
 app.use(logger('dev'));
@@ -38,6 +39,7 @@ app.use('/api/v1/posts', postsRouter);
 app.use('/api/v1/shares', sharesRouter);
 app.use('/api/v1/likes', likesRouter);
 app.use('/api/v1/comments', commentsRouter);
+app.use('/api/v1/media', mediaRouter);
 
 /* Error handler */
 app.use((err, req, res, next) => {

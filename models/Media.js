@@ -12,4 +12,8 @@ module.exports.Media = db.define('media', {
         type: DataTypes.TEXT,
         allowNull: false,
     },
+    mimeType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 });
