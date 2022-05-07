@@ -2,7 +2,7 @@ const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
 
 /* Define Connection model */
-module.exports.Connection = db.define(
+const Connection = db.define(
     'connection',
     {
         id: {
@@ -11,9 +11,11 @@ module.exports.Connection = db.define(
             primaryKey: true,
         },
         connectedWith: {
-            type: DataTypes.TEXT,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
     },
     {timestamps: false},
 );
+
+module.exports.Connection = Connection;

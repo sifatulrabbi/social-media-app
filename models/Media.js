@@ -2,7 +2,7 @@ const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
 
 /* Define Media model. */
-module.exports.Media = db.define('media', {
+const Media = db.define('media', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -17,3 +17,24 @@ module.exports.Media = db.define('media', {
         allowNull: false,
     },
 });
+
+// Associations
+Media.associations = function (models) {
+    // Media 1-1 Post
+    models.Post.hasOne(Model, {
+        foreignKey: {
+            name: 'postId',
+            allowNull: true,
+        },
+    });
+
+    // Media 1-1 Profile
+    models.Profile.hasOne(tables.Media, {
+        foreignKey: {
+            name: 'profileId',
+            allowNull: true,
+        },
+    });
+};
+
+module.exports.Media = Media;

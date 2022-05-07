@@ -2,7 +2,7 @@ const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
 
 /* Define Like model */
-module.exports.Like = db.define(
+const Like = db.define(
     'like',
     {
         id: {
@@ -13,3 +13,5 @@ module.exports.Like = db.define(
     },
     {timestamps: true},
 );
+
+module.exports.Like = Like;

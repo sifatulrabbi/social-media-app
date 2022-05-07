@@ -22,8 +22,9 @@ const Organization = db.define(
     {timestamps: true},
 );
 
-// Organization 1-n Profiles
+// Associations
 Organization.associations = (models) => {
+    // Organization 1-n Profiles
     Organization.hasMany(models.profiles, {
         foreignKey: {
             name: 'orgId',

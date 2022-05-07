@@ -2,7 +2,7 @@ const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
 
 /* Define Comment model */
-module.exports.Comment = db.define('comment', {
+const Comment = db.define('comment', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -13,3 +13,5 @@ module.exports.Comment = db.define('comment', {
         allowNull: false,
     },
 });
+
+module.exports.Comment = Comment;

@@ -2,7 +2,7 @@ const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
 
 /* Define Profile model */
-module.exports.Profile = db.define(
+const Profile = db.define(
     'profile',
     {
         id: {
@@ -21,3 +21,5 @@ module.exports.Profile = db.define(
     },
     {timestamps: true},
 );
+
+module.exports.Profile = Profile;

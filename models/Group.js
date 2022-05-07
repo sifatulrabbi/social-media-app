@@ -2,8 +2,7 @@ const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
 
 /* Define Group model. */
-
-module.exports.Group = db.define(
+const Group = db.define(
     'group',
     {
         id: {
@@ -18,3 +17,5 @@ module.exports.Group = db.define(
     },
     {timestamps: true},
 );
+
+module.exports.Group = Group;
