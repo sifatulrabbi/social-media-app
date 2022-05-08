@@ -17,6 +17,8 @@ router.post('/', async (req, res, next) => {
 
         // Create org
         const org = await Organization.create({ownerId, name});
+        const profile = await Profile.findByPk(ownerId);
+        await profile.update({orgId: org.id});
         res.status(200).json({success: true, data: org});
     } catch (err) {
         next(err);
@@ -50,9 +52,11 @@ router.get('/:id', async (req, res, next) => {
  */
 router.get('/', async (req, res, next) => {
     try {
-        const orgs = await Organization.findAll();
+        const orgs = await Organization.findAll({include: Profile});
         res.status(200).json({success: true, data: orgs});
     } catch (err) {
         next(err);
     }
 });
+
+module.exports = router;
