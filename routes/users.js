@@ -116,6 +116,14 @@ router.get('/:id/connections', verifyUser, async (req, res, next) => {
 router.post('/:id/connections', verifyUser, async (req, res, next) => {
     try {
         const {connectedWith} = req.body;
+        if (!connectedWith) {
+            res.status(400).json({
+                success: false,
+                message: 'Required field "connectedWith" not found',
+            });
+            return;
+        }
+
         // Create the connection
         const connection = await Connection.create({
             userId: req.params.id,
@@ -134,6 +142,15 @@ router.post('/:id/connections', verifyUser, async (req, res, next) => {
 router.post('/:id/profile', verifyUser, async (req, res, next) => {
     try {
         const {bio, education} = req.body;
+        if (!bio || !education) {
+            res.status(400).json({
+                success: false,
+                message: 'Required field "bio" and/or "education" not found',
+            });
+            return;
+        }
+
+        // Create profile
         const profile = await Profile.create({
             userId: req.params.id,
             bio,

@@ -3,23 +3,6 @@ const {upload} = require('../fileUpload');
 const {Media, Profile, Post} = require('../models');
 
 /**
- * Upload avatar
- */
-router.post('/avatar', upload.single('avatar'), async (req, res, next) => {
-    try {
-        // Save the files's source into Media table
-        const source = req.file.filename;
-        const mimeType = req.file.mimetype;
-        const media = await Media.create({source, mimeType});
-
-        // Send the response
-        res.status(200).json({success: true, mediaId: media.id, source});
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
  * Upload media content for posts
  */
 router.post('/', upload.single('media'), async (req, res, next) => {
@@ -47,6 +30,13 @@ router.post('/:id/addProfile', async (req, res, next) => {
             return;
         }
 
+        if (!req.body.profileId) {
+            res.status(400).json({
+                success: false,
+                message: 'Required field "profileId" not found',
+            });
+            return;
+        }
         // update the media with the post id
         await media.update({profileId: req.body.profileId});
         // Get the profile and send it to the user

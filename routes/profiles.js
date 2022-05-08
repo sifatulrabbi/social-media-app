@@ -8,6 +8,16 @@ router.post('/', async (req, res, next) => {
     try {
         // get the user input
         const {bio, education, userId} = req.body;
+        if (!bio || !education || !userId) {
+            res.status(400).json({
+                success: false,
+                message:
+                    // eslint-disable-next-line max-len
+                    'Required field "bio" and/or "education" and/or "userId" not found',
+            });
+            return;
+        }
+
         // create user profile
         const profile = await Profile.create({
             bio,
@@ -88,6 +98,14 @@ router.get('/:id', async (req, res, next) => {
 router.patch('/:id/organization', async (req, res, next) => {
     try {
         const {orgId} = req.body;
+        if (!orgId) {
+            res.status(400).json({
+                success: false,
+                message: 'Required filed "orgId" not found',
+            });
+            return;
+        }
+
         const profile = await Profile.findByPk(req.params.id);
         if (!profile) {
             res.status(404).json({

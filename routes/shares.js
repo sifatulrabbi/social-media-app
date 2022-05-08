@@ -8,7 +8,15 @@ router.post('/', async (req, res, next) => {
     try {
         // Get the share data
         const {postId, userId} = req.body;
-        // Create a record
+        if (!postId || !userId) {
+            res.status(400).json({
+                success: false,
+                message: 'Required field "postId" and/or "userId" not found',
+            });
+            return;
+        }
+
+        // Create a share
         const share = await Share.create({
             postId: postId,
             userId: userId,
