@@ -11,6 +11,7 @@ const {
     Comment,
 } = require('../models');
 const {verifyUser} = require('../middlewares/verifyUser');
+const _ = require('lodash');
 
 /**
  * GET all the users
@@ -18,7 +19,10 @@ const {verifyUser} = require('../middlewares/verifyUser');
 router.get('/', async (req, res, next) => {
     try {
         const users = await User.findAll();
-        res.status(200).json({success: true, data: users});
+        res.status(200).json({
+            success: true,
+            data: users.map((user) => _.omit(user.get(), 'hash', 'salt')),
+        });
     } catch (err) {
         next(err);
     }
@@ -30,7 +34,10 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', verifyUser, (req, res, next) => {
     try {
         // Send response
-        res.status(200).json({success: true, data: req.user});
+        res.status(200).json({
+            success: true,
+            data: _.omit(req.user.get(), 'hash', 'salt'),
+        });
     } catch (err) {
         next(err);
     }
@@ -155,7 +162,6 @@ router.post('/:id/profile', verifyUser, async (req, res, next) => {
             userId: req.params.id,
             bio,
             education,
-            media: 'media-source',
         });
         // Send response
         res.status(200).json({success: true, data: profile});

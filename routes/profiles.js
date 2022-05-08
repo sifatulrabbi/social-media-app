@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Profile, Media} = require('../models');
+const {Profile, Media, Organization} = require('../models');
 
 /**
  * Create a profile
@@ -48,10 +48,11 @@ router.put('/:id', async (req, res, next) => {
         }
 
         // Get the updating data
-        const {bio, education} = req.body;
+        const {bio, education, orgId} = req.body;
 
         if (bio) profile.bio = bio;
         if (education) profile.education = education;
+        if (orgId) profile.orgId = orgId;
 
         // save the updated profile
         const updatedProfile = await profile.save();
@@ -64,7 +65,7 @@ router.put('/:id', async (req, res, next) => {
 });
 
 /**
- * GET a profile with id or userId
+ * GET a profile with id
  */
 router.get('/:id', async (req, res, next) => {
     try {
@@ -78,9 +79,16 @@ router.get('/:id', async (req, res, next) => {
             include: Media,
         });
 
+        let org = null;
+        if (profile.orgId) {
+            org = await Organization.findOne({where: {id: profile.orgId}});
+        }
+
         // Check for the profile's existence
         if (profile) {
-            res.status(200).json({success: true, data: profile});
+            const data = profile.get();
+            if (org) data.org = org.get();
+            res.status(200).json({success: true, data});
         } else {
             res.status(404).json({
                 success: false,

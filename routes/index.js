@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const {User} = require('../models');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 
 /**
  * LOGIN route
@@ -12,8 +13,9 @@ router.post(
     passport.authenticate('local', {
         failureMessage: 'Incorrect credentials. Please try again',
     }),
-    async (req, res) => {
-        res.status(200).json({success: true, data: req.user});
+    (req, res) => {
+        const data = _.omit(req.user.get(), 'hash', 'salt');
+        res.status(200).json({success: true, data: data});
     },
 );
 
@@ -35,7 +37,10 @@ router.post('/auth/signup', async (req, res) => {
         });
 
         // Send response
-        res.status(200).json({success: true, data: user});
+        res.status(200).json({
+            success: true,
+            data: _.omit(user.get(), 'hash', 'salt'),
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({success: false, message: 'Internal error'});
