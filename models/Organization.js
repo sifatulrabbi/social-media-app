@@ -11,10 +11,22 @@ const Organization = db.define(
             autoIncrement: true,
             primaryKey: true,
         },
+        // Name of the organization
         name: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        // Type of the organization
+        // e.g. 'Physician'
+        // Only profiles with the sam type can join the organization
+        type: {
+            type: DataTypes.STRING,
+            // Adding Physician as the default type
+            // because we don't need an organization with general users
+            defaultValue: 'Physician',
+        },
+        // Owner of the organization ID
+        // This means organizations will have an owner/founder
         ownerId: {
             type: DataTypes.INTEGER,
             allowNull: false,

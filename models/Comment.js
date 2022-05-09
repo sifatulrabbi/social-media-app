@@ -8,6 +8,7 @@ const Comment = db.define('comment', {
         autoIncrement: true,
         primaryKey: true,
     },
+    // Comment's text/body
     body: {
         type: DataTypes.TEXT,
         allowNull: false,

@@ -10,6 +10,7 @@ const Connection = db.define(
             autoIncrement: true,
             primaryKey: true,
         },
+        // ID of the connected user
         connectedWith: {
             type: DataTypes.INTEGER,
             allowNull: false,

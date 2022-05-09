@@ -15,13 +15,4 @@ const Share = db.define(
     {timestamps: true},
 );
 
-// Associations
-// Post 1-n share
-// Share.belongsTo(Post, {
-//     foreignKey: {
-//         name: 'postId',
-//         allowNull: false,
-//     },
-// });
-
 module.exports.Share = Share;
