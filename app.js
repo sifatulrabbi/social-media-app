@@ -2,8 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const passport = require('passport');
-const {localStrategy, serializer, deserializer} = require('./auth');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -24,12 +22,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({origin: '*'})); // allowing all the origin
-
-/* Initialize passport */
-passport.initialize();
-passport.use(localStrategy);
-passport.serializeUser(serializer);
-passport.deserializeUser(deserializer);
 
 /* Routes */
 app.use('/api/v1', indexRouter);

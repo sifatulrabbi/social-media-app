@@ -1,23 +1,15 @@
-const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const User = require('./models').User;
-
-const localStrategy = new LocalStrategy(
-    {
-        usernameField: 'email',
-        passwordField: 'password',
-    },
-    verify,
-);
+const _ = require('lodash');
 
 /**
  * Verify function for verifying the user login
  */
-async function verify(email, password, done) {
+module.exports.verify = async function (username, password, done) {
     try {
         const user = await User.findOne({
             where: {
-                email: email,
+                username: username,
             },
         });
         // Check for the existence of the user
@@ -29,39 +21,32 @@ async function verify(email, password, done) {
             if (enteredPassword !== user.hash) {
                 done(new Error('Incorrect password'));
             } else {
-                done(null, user);
+                const data = _.omit(user.get(), 'hash', 'salt');
+                done(null, data);
             }
         }
     } catch (err) {
         console.error('\nError occurred during user login: ', err);
         done(err);
     }
-}
-
-/**
- * passport serializer
- */
-module.exports.serializer = function (user, done) {
-    if (user.id) {
-        done(null, user.id);
-        return;
-    } else {
-        const errors = ['Unable to deserialize', 'User id not found'];
-        done(new Error(errors.join('. ')));
-    }
 };
 
-/**
- * passport deserializer
- */
-module.exports.deserializer = async function (id, done) {
+module.exports.createUser = async function (signUpData, done) {
     try {
-        const user = await User.findOne({where: {id: id}});
-        done(null, user);
+        const {username, email, password} = signUpData;
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+        // create user profile
+        const user = await User.create({
+            username,
+            email,
+            salt,
+            hash,
+        });
+        const data = _.omit(user.get(), 'hash', 'salt');
+        done(null, data);
     } catch (err) {
-        console.error('Error while deserializing the user: ', err);
         done(err);
     }
 };
-
-module.exports.localStrategy = localStrategy;

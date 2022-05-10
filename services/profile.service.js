@@ -9,7 +9,9 @@ const {
     User,
 } = require('../models');
 
-module.exports.getFullProfile = async function (profileId) {
+const profilesService = {};
+
+profilesService.getFullProfile = async function (profileId) {
     // get the profile
     const profile = await this.getProfileWithId(profileId);
     // validate the profile
@@ -35,19 +37,23 @@ module.exports.getFullProfile = async function (profileId) {
         posts.push(post);
     }
 
-    return posts;
+    const data = {
+        ...profile.get(),
+        posts,
+    };
+
+    return data;
 };
 
-module.exports.getProfileWithId = async function (profileId) {
+profilesService.getProfileWithId = async function (profileId) {
     const profile = await Profile.findByPk(profileId, {
-        include: Media,
-        Connection,
+        include: [Media, Connection],
     });
 
     return profile ? profile : null;
 };
 
-module.exports.getProfileWithUsername = async function (username) {
+profilesService.getProfileWithUsername = async function (username) {
     const user = await User.findOne({
         where: {username},
         include: Profile,
@@ -59,7 +65,7 @@ module.exports.getProfileWithUsername = async function (username) {
     return profile;
 };
 
-module.exports.addToOrg = async function (profileId, orgId) {
+profilesService.addToOrg = async function (profileId, orgId) {
     // get the profile with id
     const profile = await Profile.findByPk(profileId);
     if (!profile) return null;
@@ -68,3 +74,16 @@ module.exports.addToOrg = async function (profileId, orgId) {
 
     return updatedProfile;
 };
+
+profilesService.getUserWithProfile = async function (username) {
+    const user = await User.findOne({where: {username, username}});
+    const profile = await Profile.findOne({where: {userId: user.id}});
+    const data = {
+        ...user.get(),
+        profile: profile ? profile.get() : null,
+    };
+
+    return data;
+};
+
+module.exports = profilesService;

@@ -10,9 +10,9 @@ const {createPost} = require('../services/posts.service');
 router.post('/:username', verifyUser, async (req, res, next) => {
     try {
         // get the user input
-        const {bio, education, specialization, address} = req.body;
+        const {fullname, bio, education, specialization, address} = req.body;
 
-        if (!bio || !education || !specialization || !address) {
+        if (!fullname || !bio || !education || !specialization || !address) {
             res.status(400).json({
                 success: false,
                 message:
@@ -26,6 +26,7 @@ router.post('/:username', verifyUser, async (req, res, next) => {
         // create user profile
         const profile = await Profile.create({
             userId: req.user.id,
+            fullname,
             bio,
             education,
             specialization,
@@ -36,6 +37,23 @@ router.post('/:username', verifyUser, async (req, res, next) => {
         res.status(200).json({success: false, data: profile});
     } catch (err) {
         // handle errors
+        next(err);
+    }
+});
+
+/**
+ * Get a profile with username
+ */
+router.get('/:username', async (req, res, next) => {
+    try {
+        const profile = await profilesService.getProfileWithUsername(
+            req.params.username,
+        );
+
+        profile
+            ? res.status(200).json({success: true, data: profile})
+            : res.status(404).json({success: false, message: 'User not found'});
+    } catch (err) {
         next(err);
     }
 });
@@ -130,23 +148,6 @@ router.put('/:username/organization', verifyUser, async (req, res, next) => {
         );
 
         res.status(200).json({success: true, data: updatedProfile});
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
- * Get a profile with username
- */
-router.get('/:username', async (req, res, next) => {
-    try {
-        const profile = await profilesService.getProfileWithUsername(
-            req.params.username,
-        );
-
-        profile
-            ? res.status(200).json({success: true, data: profile})
-            : res.status(404).json({success: false, message: 'User not found'});
     } catch (err) {
         next(err);
     }

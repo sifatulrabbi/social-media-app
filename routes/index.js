@@ -1,50 +1,42 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const {User} = require('../models');
-const bcrypt = require('bcrypt');
-const _ = require('lodash');
+const {verify, createUser} = require('../auth');
 
 /**
  * LOGIN route
  */
-router.post(
-    '/auth/login',
-    passport.authenticate('local', {
-        failureMessage: 'Incorrect credentials. Please try again',
-    }),
-    (req, res) => {
-        const data = _.omit(req.user.get(), 'hash', 'salt');
-        res.status(200).json({success: true, data: data});
-    },
-);
+router.post('/auth/login', (req, res) => {
+    verify(req.body.username, req.body.password, (err, result) => {
+        if (err) {
+            res.status(400).json({success: false, errors: err});
+            return;
+        } else if (!result) {
+            res.status(404).json({success: false, message: 'User not found'});
+            return;
+        } else {
+            res.status(200).json({success: true, data: result});
+        }
+    });
+});
 
 /**
  * SIGN UP route
  */
 router.post('/auth/signup', async (req, res) => {
-    try {
-        const {username, email, password} = req.body;
-        // hash password
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
-        // create user profile
-        const user = await User.create({
-            username,
-            email,
-            salt,
-            hash,
-        });
-
-        // Send response
-        res.status(200).json({
-            success: true,
-            data: _.omit(user.get(), 'hash', 'salt'),
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({success: false, message: 'Internal error'});
-    }
+    createUser(req.body, (err, result) => {
+        if (err) {
+            res.status(400).json({success: false, errors: err});
+            return;
+        } else if (!result) {
+            res.status(404).json({
+                success: false,
+                message: 'User not found',
+            });
+            return;
+        } else {
+            res.status(200).json({success: true, data: result});
+        }
+    });
 });
 
 /**
