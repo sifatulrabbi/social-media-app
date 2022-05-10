@@ -131,7 +131,7 @@ router.get('/:username/connections', verifyUser, async (req, res, next) => {
 /**
  * Add to an organization
  */
-router.put('/:username/organization', verifyUser, async (req, res, next) => {
+router.post('/:username/org', verifyUser, async (req, res, next) => {
     try {
         const {orgId} = req.body;
         if (!orgId) {
@@ -143,11 +143,18 @@ router.put('/:username/organization', verifyUser, async (req, res, next) => {
         }
 
         const updatedProfile = await profilesService.addToOrg(
-            req.user.profile.id,
+            req.user.profile,
             orgId,
         );
 
-        res.status(200).json({success: true, data: updatedProfile});
+        if (!updatedProfile) {
+            res.status(400).json({
+                success: false,
+                message: 'Unable to add to the organization',
+            });
+        } else {
+            res.status(200).json({success: true, data: updatedProfile});
+        }
     } catch (err) {
         next(err);
     }

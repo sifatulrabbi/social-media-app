@@ -7,8 +7,8 @@ const {addToOrg} = require('../services/profile.service');
  */
 router.post('/', async (req, res, next) => {
     try {
-        const {ownerId, name} = req.body;
-        if (!ownerId || !name) {
+        const {ownerId, name, allowedProfiles} = req.body;
+        if (!ownerId || !name || !allowedProfiles) {
             res.status(400).json({
                 success: false,
                 message: 'Required filed "ownerId" and/or "name" not found',
@@ -17,7 +17,11 @@ router.post('/', async (req, res, next) => {
         }
 
         // Create org
-        const org = await Organization.create({ownerId, name});
+        const org = await Organization.create({
+            ownerId,
+            name,
+            allowedProfiles: allowedProfiles.trim().replace(' ', ''),
+        });
         await addToOrg(ownerId, org.id);
         res.status(200).json({success: true, data: org});
     } catch (err) {

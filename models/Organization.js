@@ -19,7 +19,7 @@ const Organization = db.define(
         // Type of the organization
         // e.g. 'Physician'
         // Only profiles with the sam type can join the organization
-        type: {
+        allowedProfiles: {
             type: DataTypes.STRING,
             // Adding Physician as the default type
             // because we don't need an organization with general users
