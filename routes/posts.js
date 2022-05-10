@@ -6,8 +6,8 @@ const {Post, Comment, Like, Share, Media} = require('../models');
  */
 router.post('/', async (req, res, next) => {
     try {
-        const {body, userId} = req.body;
-        if (!body || !userId) {
+        const {body, profileId} = req.body;
+        if (!body || !profileId) {
             res.status(400).json({
                 success: false,
                 message: 'Required field "body" and/or "userId" not found',
@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
 
         const post = await Post.create({
             body,
-            userId,
+            profileId,
         });
 
         // Send response

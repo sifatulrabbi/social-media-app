@@ -1,5 +1,6 @@
 const {Organization, Profile} = require('../models');
 const router = require('express').Router();
+const {addToOrg} = require('../services/profile.service');
 
 /**
  * Create an Organization
@@ -17,8 +18,7 @@ router.post('/', async (req, res, next) => {
 
         // Create org
         const org = await Organization.create({ownerId, name});
-        const profile = await Profile.findByPk(ownerId);
-        await profile.update({orgId: org.id});
+        await addToOrg(ownerId, org.id);
         res.status(200).json({success: true, data: org});
     } catch (err) {
         next(err);

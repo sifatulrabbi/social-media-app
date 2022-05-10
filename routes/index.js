@@ -24,16 +24,16 @@ router.post(
  */
 router.post('/auth/signup', async (req, res) => {
     try {
-        const {name, email, password} = req.body;
+        const {username, email, password} = req.body;
         // hash password
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
         // create user profile
         const user = await User.create({
-            name: name,
-            email: email,
-            salt: salt,
-            hash: hash,
+            username,
+            email,
+            salt,
+            hash,
         });
 
         // Send response
@@ -51,7 +51,7 @@ router.post('/auth/signup', async (req, res) => {
  * Health check route
  */
 router.get('/', (req, res) => {
-    res.status(200).json({success: true, message: 'Hello world'});
+    res.status(200).json({success: true, message: 'Hello, world'});
 });
 
 module.exports = router;

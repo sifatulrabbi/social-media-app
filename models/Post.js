@@ -14,8 +14,19 @@ const Post = db.define(
             autoIncrement: true,
             primaryKey: true,
         },
+        // post's body (texts)
         body: {
             type: DataTypes.TEXT,
+            allowNull: true,
+        },
+        // name of the user
+        postedBy: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        // id of the profile avatar/media
+        profileAvatar: {
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
     },

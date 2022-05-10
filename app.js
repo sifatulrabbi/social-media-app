@@ -10,7 +10,6 @@ const app = express();
 
 // Routers
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const profilesRouter = require('./routes/profiles');
 const postsRouter = require('./routes/posts');
 const likesRouter = require('./routes/likes');
@@ -34,7 +33,6 @@ passport.deserializeUser(deserializer);
 
 /* Routes */
 app.use('/api/v1', indexRouter);
-app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/profiles', profilesRouter);
 app.use('/api/v1/posts', postsRouter);
 app.use('/api/v1/shares', sharesRouter);

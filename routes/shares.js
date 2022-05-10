@@ -1,5 +1,5 @@
-const Share = require('../models').Share;
 const router = require('express').Router();
+const {sharePost} = require('../services/posts.service');
 
 /**
  * Create a share
@@ -7,7 +7,7 @@ const router = require('express').Router();
 router.post('/', async (req, res, next) => {
     try {
         // Get the share data
-        const {postId, userId} = req.body;
+        const {postId, profileId} = req.body;
         if (!postId || !userId) {
             res.status(400).json({
                 success: false,
@@ -17,10 +17,7 @@ router.post('/', async (req, res, next) => {
         }
 
         // Create a share
-        const share = await Share.create({
-            postId: postId,
-            userId: userId,
-        });
+        const share = await sharePost(postId, profileId);
         // Send response
         res.status(200).json({success: true, data: share});
     } catch (err) {

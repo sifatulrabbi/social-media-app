@@ -13,5 +13,6 @@ module.exports = {
         'indent': 'off',
         'space-before-function-paren': 'off',
         'new-cap': 'off',
+        'operator-linebreak': 'off',
     },
 };

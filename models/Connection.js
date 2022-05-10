@@ -11,6 +11,7 @@ const Connection = db.define(
             primaryKey: true,
         },
         // ID of the connected user
+        // This field contains the profileId
         connectedWith: {
             type: DataTypes.INTEGER,
             allowNull: false,

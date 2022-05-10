@@ -1,28 +1,35 @@
 const router = require('express').Router();
-const {Profile, Media, Organization} = require('../models');
+const {Profile, Connection} = require('../models');
+const profilesService = require('../services/profile.service');
+const {verifyUser} = require('../middlewares/verifyUser');
+const {createPost} = require('../services/posts.service');
 
 /**
  * Create a profile
  */
-router.post('/', async (req, res, next) => {
+router.post('/:username', verifyUser, async (req, res, next) => {
     try {
         // get the user input
-        const {bio, education, userId} = req.body;
-        if (!bio || !education || !userId) {
+        const {bio, education, specialization, address} = req.body;
+
+        if (!bio || !education || !specialization || !address) {
             res.status(400).json({
                 success: false,
                 message:
                     // eslint-disable-next-line max-len
-                    'Required field "bio" and/or "education" and/or "userId" not found',
+                    'Required field "bio" and/or "education" and/or "user" not found',
             });
+
             return;
         }
 
         // create user profile
         const profile = await Profile.create({
+            userId: req.user.id,
             bio,
             education,
-            userId,
+            specialization,
+            address,
         });
 
         // send response
@@ -36,23 +43,19 @@ router.post('/', async (req, res, next) => {
 /**
  * Update a profile
  */
-router.put('/:id', async (req, res, next) => {
+router.put('/:username', verifyUser, async (req, res, next) => {
     try {
-        const profile = await Profile.findByPk(req.params.id);
-        // verify profile's availability
-        if (!profile) {
-            return res.status(404).json({
-                success: false,
-                message: 'Profile not found',
-            });
-        }
+        const profile = await Profile.findByPk(req.user.profile.id);
 
         // Get the updating data
-        const {bio, education, orgId} = req.body;
+        const {bio, education, orgId, specialization, address} = req.body;
 
+        // update queue
         if (bio) profile.bio = bio;
         if (education) profile.education = education;
         if (orgId) profile.orgId = orgId;
+        if (specialization) profile.specialization = specialization;
+        if (address) profile.address = address;
 
         // save the updated profile
         const updatedProfile = await profile.save();
@@ -65,36 +68,43 @@ router.put('/:id', async (req, res, next) => {
 });
 
 /**
- * GET a profile with id
+ * Create connections
  */
-router.get('/:id', async (req, res, next) => {
+router.post('/:username/connections', verifyUser, async (req, res, next) => {
     try {
-        let profile = null;
+        const {connectedWith} = req.body;
+        if (!connectedWith) {
+            res.status(400).json({
+                success: false,
+                message: 'Required field "connectedWith" not found',
+            });
+            return;
+        }
 
-        // get the profile with either profile id or user id
-        profile = await Profile.findOne({
-            where: {
-                id: req.params.id,
-            },
-            include: Media,
+        // Create the connection
+        const connection = await Connection.create({
+            profileId: req.user.profile.id,
+            connectedWith,
+        });
+        // Send response
+        res.status(200).json({success: true, data: connection});
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * GET user connections
+ */
+router.get('/:username/connections', verifyUser, async (req, res, next) => {
+    try {
+        // Get the user's connections
+        const connections = await Connection.findAll({
+            where: {profileId: req.user.profile.id},
         });
 
-        let org = null;
-        if (profile.orgId) {
-            org = await Organization.findOne({where: {id: profile.orgId}});
-        }
-
-        // Check for the profile's existence
-        if (profile) {
-            const data = profile.get();
-            if (org) data.org = org.get();
-            res.status(200).json({success: true, data});
-        } else {
-            res.status(404).json({
-                success: false,
-                message: 'Profile not found',
-            });
-        }
+        // Send response
+        res.status(200).json({success: true, data: connections});
     } catch (err) {
         next(err);
     }
@@ -103,7 +113,7 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Add to an organization
  */
-router.patch('/:id/organization', async (req, res, next) => {
+router.put('/:username/organization', verifyUser, async (req, res, next) => {
     try {
         const {orgId} = req.body;
         if (!orgId) {
@@ -114,19 +124,46 @@ router.patch('/:id/organization', async (req, res, next) => {
             return;
         }
 
-        const profile = await Profile.findByPk(req.params.id);
-        if (!profile) {
-            res.status(404).json({
-                success: false,
-                message: 'Profile not found',
-            });
-            return;
-        }
+        const updatedProfile = await profilesService.addToOrg(
+            req.user.profile.id,
+            orgId,
+        );
 
-        const updatedProfile = await profile.update({
-            orgId: orgId,
-        });
         res.status(200).json({success: true, data: updatedProfile});
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * Get a profile with username
+ */
+router.get('/:username', async (req, res, next) => {
+    try {
+        const profile = await profilesService.getProfileWithUsername(
+            req.params.username,
+        );
+
+        profile
+            ? res.status(200).json({success: true, data: profile})
+            : res.status(404).json({success: false, message: 'User not found'});
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * Create a post
+ */
+router.post('/:username/post', verifyUser, async (req, res, next) => {
+    try {
+        const post = await createPost(req.params.user.profile, req.body);
+        post
+            ? res.status(200).json({success: true, data: post})
+            : req.status(400).json({
+                  success: false,
+                  message: 'Unable to create post',
+              });
     } catch (err) {
         next(err);
     }

@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const {upload} = require('../fileUpload');
 const {Media, Profile, Post} = require('../models');
+const path = require('path');
 
 /**
- * Upload media content for posts
+ * Upload media content
  */
 router.post('/', upload.single('media'), async (req, res, next) => {
     try {
@@ -79,9 +80,17 @@ router.post('/:id/addPost', async (req, res, next) => {
 /**
  * Get media
  */
-router.get('/:filename', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        res.status(200).json({success: true});
+        const media = await Media.findByPk(req.params.id);
+        if (!media) {
+            res.status(404).json({message: 'Media not found', success: false});
+            return;
+        }
+        const filePath = path.join(
+            path.join(__dirname, '../media', media.source),
+        );
+        res.status(200).download(filePath);
     } catch (err) {
         next(err);
     }
