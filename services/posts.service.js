@@ -8,6 +8,7 @@ module.exports.createPost = async function (profile, postData) {
     if (media) data.profileAvatar = media.id;
     data.body = postData.body;
     data.postedBy = profile.fullname;
+    data.profileId = profile.id;
 
     const post = await Post.create(data);
 

@@ -2,35 +2,6 @@ const router = require('express').Router();
 const {Post, Comment, Like, Share, Media} = require('../models');
 
 /**
- * Create a new post
- */
-router.post('/', async (req, res, next) => {
-    try {
-        const {body, profileId} = req.body;
-        if (!body || !profileId) {
-            res.status(400).json({
-                success: false,
-                message: 'Required field "body" and/or "userId" not found',
-            });
-            return;
-        }
-
-        const post = await Post.create({
-            body,
-            profileId,
-        });
-
-        // Send response
-        res.status(200).json({
-            success: true,
-            data: post,
-        });
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
  * GET a post
  */
 router.get('/:id', async (req, res, next) => {

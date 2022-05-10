@@ -8,7 +8,7 @@ router.post('/', async (req, res, next) => {
     try {
         // Get the share data
         const {postId, profileId} = req.body;
-        if (!postId || !userId) {
+        if (!postId || !profileId) {
             res.status(400).json({
                 success: false,
                 message: 'Required field "postId" and/or "userId" not found',

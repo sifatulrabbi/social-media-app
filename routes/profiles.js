@@ -158,7 +158,7 @@ router.put('/:username/organization', verifyUser, async (req, res, next) => {
  */
 router.post('/:username/post', verifyUser, async (req, res, next) => {
     try {
-        const post = await createPost(req.params.user.profile, req.body);
+        const post = await createPost(req.user.profile, req.body);
         post
             ? res.status(200).json({success: true, data: post})
             : req.status(400).json({
