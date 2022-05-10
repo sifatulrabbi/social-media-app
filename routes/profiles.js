@@ -104,6 +104,12 @@ router.post('/:username/connections', verifyUser, async (req, res, next) => {
             profileId: req.user.profile.id,
             connectedWith,
         });
+
+        // adding connection for the other user
+        await Connection.create({
+            profileId: connectedWith,
+            connectedWith: req.user.profile.id,
+        });
         // Send response
         res.status(200).json({success: true, data: connection});
     } catch (err) {
