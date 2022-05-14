@@ -18,11 +18,12 @@
   ],
   "license": "ISC",
   "scripts": {
+    "start:all": "npm run start:server && npm run start:web",
     "start:server:dev": "npm --workspace server run start:dev",
-    "start:web:dev": "npm --workspace web run start",
     "start:server": "npm --workspace server run start:dev",
+    "start:web:dev": "npm --workspace web run start",
     "start:web": "npm --workspace web run start",
-    "start:all": "npm run start:server && npm run start:web"
+    "build:web": "npm --workspace web run build"
   },
   "prettier": {
     "singleQuote": true,
