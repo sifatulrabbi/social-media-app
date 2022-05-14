@@ -1,13 +1,33 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::after,
+*::before {
+  @apply font-body text-textSecondary;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer utilities {
+  .bg-linear {
+    background: linear-gradient(180deg, #f6fafd 0%, #ffffff 19.4%);
+  }
+
+  /**
+  * Padding for containers
+  * container has a dynamic padding, their padding will increase as the screen size increases
+  */
+  .p-container {
+    @apply px-[1.5rem] py-[1.5rem] md:px-[14vw];
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary shadow-md font-bold text-sm rounded-full px-12 py-4 text-white transition-colors duration-300 hover:bg-[#00CA13];
+  }
+
+  .btn-secondary {
+    @apply bg-white shadow-md font-bold text-sm rounded-full px-12 py-4 text-textPrimary transition-colors duration-300 hover:bg-gray-100;
+  }
 }

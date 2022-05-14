@@ -1,5 +1,5 @@
 {
-  "name": "fiverr-colewilliams",
+  "name": "prometheus",
   "version": "1.0.0",
   "description": "Social media application",
   "homepage": "https://github.com/sifatulrabbi/fiverr-colewilliams#readme",
@@ -18,7 +18,11 @@
   ],
   "license": "ISC",
   "scripts": {
-    "start:server": ""
+    "start:server:dev": "npm --workspace server run start:dev",
+    "start:web:dev": "npm --workspace web run start",
+    "start:server": "npm --workspace server run start:dev",
+    "start:web": "npm --workspace web run start",
+    "start:all": "npm run start:server && npm run start:web"
   },
   "prettier": {
     "singleQuote": true,
