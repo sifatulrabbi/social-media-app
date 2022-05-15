@@ -5,9 +5,7 @@ import Post from '../../Post';
 const rawData = [
   {
     postId: 2,
-    profile: {
-      fullname: 'Jimmy jones',
-    },
+    postedBy: 'Jimmy jones',
     body: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum haurvived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release.',
     createdAt: new Date(),
     shares: [
@@ -31,7 +29,7 @@ const rawData = [
 const ProfilePosts = () => {
   return (
     <div className="p-4">
-      <h3 className="text-xl font-bold">Your posts</h3>
+      <h3 className="text-xl font-bold mb-6">Your posts</h3>
       {rawData.map((data) => (
         <Post {...data} key={v4()} />
       ))}
