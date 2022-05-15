@@ -1,2 +1,11 @@
 export {default as heroImg} from './hero.png';
 export {default as aboutImg} from './about.png';
+export {default as featureOne} from './feature-1.png';
+export {default as featureOneBg} from './feature-1-bg.png';
+export {default as featureTwo} from './feature-2.png';
+export {default as featureTwoBg} from './feature-2-bg.png';
+export {default as featureThree} from './feature-3.png';
+export {default as featureThreeBg} from './feature-3-bg.png';
+export {default as featureFour} from './feature-4.png';
+export {default as featureFourBg} from './feature-4-bg.png';
+export {default as logo} from './logo.svg';

@@ -18,7 +18,7 @@
   * container has a dynamic padding, their padding will increase as the screen size increases
   */
   .p-container {
-    @apply px-[1.5rem] py-[1.5rem] md:px-[14vw];
+    @apply px-[1.5rem] md:px-[14vw];
   }
 }
 
