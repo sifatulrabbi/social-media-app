@@ -77,17 +77,20 @@ const ProfileTop = () => {
         <ActionsGroup colleagueCount={123} />
       </div>
       {/* bio box */}
-      <p className="p-4 bg-gray-100/80 rounded-lg">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore
-        praesentium architecto accusamus fugit libero beatae impedit corporis
-        soluta totam cupiditate quod, ex eveniet excepturi accusantium dicta
-        quasi error aliquid exercitationem nulla quaerat molestias iure, in
-        perspiciatis quidem. Fugiat tempora quod labore, autem eveniet veritatis
-        ipsa facere quis consequuntur perferendis ex, iusto nihil odit pariatur
-        quibusdam nam velit sequi quas sunt minus nostrum, explicabo beatae!
-        Quas iste veniam sunt tempore recusandae sequi accusantium laborum
-        harum, rerum perferendis, repudiandae porro molestiae maxime!
-      </p>
+      <div className="p-4">
+        <p className="p-4 bg-gray-100/80 rounded-lg">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore
+          praesentium architecto accusamus fugit libero beatae impedit corporis
+          soluta totam cupiditate quod, ex eveniet excepturi accusantium dicta
+          quasi error aliquid exercitationem nulla quaerat molestias iure, in
+          perspiciatis quidem. Fugiat tempora quod labore, autem eveniet
+          veritatis ipsa facere quis consequuntur perferendis ex, iusto nihil
+          odit pariatur quibusdam nam velit sequi quas sunt minus nostrum,
+          explicabo beatae! Quas iste veniam sunt tempore recusandae sequi
+          accusantium laborum harum, rerum perferendis, repudiandae porro
+          molestiae maxime!
+        </p>
+      </div>
     </div>
   );
 };

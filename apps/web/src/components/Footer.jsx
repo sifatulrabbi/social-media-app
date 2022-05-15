@@ -1,10 +1,10 @@
 import React from 'react';
-import {logo} from '../../../images';
+import {logo} from '../images';
 import {FaFacebookF, FaTwitter, FaInstagram} from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col mt-[10vh] gap-6 border-t-[2px] border-[#9C69E277] pt-[10vh] mb-[10vh]">
+    <footer className="p-container flex flex-col mt-[10vh] gap-6 border-t-[2px] border-[#9C69E277] pt-[10vh] mb-[10vh]">
       <div className="w-full flex justify-between items-center">
         <div>
           <h3 className="font-display font-bold text-textPrimary mb-4 text-3xl">

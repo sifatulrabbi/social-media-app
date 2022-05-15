@@ -2,7 +2,6 @@ import React from 'react';
 import Hero from './Hero';
 import About from './About';
 import Features from './Features';
-import Footer from './Footer';
 import MessageBtn from '../../MessageBtn';
 
 const Home = () => {
@@ -13,7 +12,6 @@ const Home = () => {
       <Hero />
       <About />
       <Features />
-      <Footer />
       <MessageBtn />
     </div>
   );

@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   config.DB_PASSWORD,
   {
     host: 'localhost', // localhost as host server
-    dialect: 'mariadb', // database dialect name
+    dialect: 'mysql', // database dialect name
     logging: console.log, // using the console for logging
   },
 );
