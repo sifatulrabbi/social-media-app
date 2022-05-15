@@ -9,3 +9,4 @@ export {default as featureThreeBg} from './feature-3-bg.png';
 export {default as featureFour} from './feature-4.png';
 export {default as featureFourBg} from './feature-4-bg.png';
 export {default as logo} from './logo.svg';
+export {default as profileCover} from './profile-cover.png';
