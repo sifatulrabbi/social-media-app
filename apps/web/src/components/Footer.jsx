@@ -1,6 +1,7 @@
 import React from 'react';
 import {logo} from '../images';
 import {FaFacebookF, FaTwitter, FaInstagram} from 'react-icons/fa';
+import {Link} from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -16,8 +17,12 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-row gap-6">
-          <button className="btn-primary">Sign in</button>
-          <button className="btn-secondary">Register</button>
+          <Link to="/login" className="btn-primary">
+            Sign in
+          </Link>
+          <Link to="/register" className="btn-secondary">
+            Register
+          </Link>
         </div>
       </div>
       {/* footer bottom */}

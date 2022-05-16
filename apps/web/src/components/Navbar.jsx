@@ -36,12 +36,13 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <button
+        <Link
+          to="/register"
           className={`font-bold px-6 py-3 w-max flex flex-row items-center gap-4`}
         >
           <span>Register</span>
           <BsArrowRight className={`text-2xl fill-primary`} />
-        </button>
+        </Link>
       </div>
     </div>
   );
