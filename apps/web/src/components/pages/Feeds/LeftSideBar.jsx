@@ -41,7 +41,7 @@ const LeftSideBar = () => {
 
   return (
     <aside
-      className={`z-50 h-full flex flex-col justify-start items-start fixed top 0 left-4 top-[100px] -translate-y-8 translate-x-[-120%] bg-white transition-transform xl:translate-x-0 pt-[5vh]`}
+      className={`z-50 h-full flex flex-col justify-start items-start fixed top 0 left-4 top-[100px] -translate-y-8 translate-x-[-120%] transition-transform xl:translate-x-0 pt-[5vh]`}
     >
       <div className="flex flex-col justify-center px-6">
         <img

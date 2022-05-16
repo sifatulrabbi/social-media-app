@@ -1,6 +1,11 @@
 import React, {useRef, useState} from 'react';
 import {useAuthContext} from '../contexts/AuthContext';
-import {AiOutlinePlus, AiFillCamera} from 'react-icons/ai';
+import {
+  AiOutlinePlus,
+  AiFillCamera,
+  AiFillAudio,
+  AiFillVideoCamera,
+} from 'react-icons/ai';
 
 const PostForm = () => {
   const [file, setFile] = useState();
@@ -8,7 +13,7 @@ const PostForm = () => {
   const uploadRef = useRef(null);
 
   return (
-    <div className="rounded-lg border-2 p-4 mt-[100px] mx-auto max-w-3xl flex flex-row gap-4">
+    <div className="rounded-lg border-[1px] p-4 mx-auto max-w-3xl flex flex-row gap-4">
       <img
         src={user?.avatar || ''}
         alt=""
@@ -28,6 +33,23 @@ const PostForm = () => {
             type="file"
             className="hidden"
             value={file}
+            accept="image/*"
+            onChange={(e) => setFile(e.target.value)}
+          />
+          <input
+            ref={uploadRef}
+            type="file"
+            className="hidden"
+            value={file}
+            accept="video/*"
+            onChange={(e) => setFile(e.target.value)}
+          />
+          <input
+            ref={uploadRef}
+            type="file"
+            className="hidden"
+            value={file}
+            accept="audio/*"
             onChange={(e) => setFile(e.target.value)}
           />
           <div className="flex items-center justify-between">
@@ -38,9 +60,15 @@ const PostForm = () => {
               <AiOutlinePlus className="fill-white text-lg" />
               Creat post
             </button>
-            <div>
+            <div className="flex flex-row gap-4 items-center">
               <button type="button" onClick={() => uploadRef.current.click()}>
                 <AiFillCamera className="text-2xl fill-primary" />
+              </button>
+              <button type="button" onClick={() => uploadRef.current.click()}>
+                <AiFillAudio className="text-2xl fill-primary" />
+              </button>
+              <button type="button" onClick={() => uploadRef.current.click()}>
+                <AiFillVideoCamera className="text-2xl fill-primary" />
               </button>
             </div>
           </div>

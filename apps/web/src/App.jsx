@@ -4,10 +4,10 @@ import Home from './components/pages/Home';
 import Navbar from './components/Navbar';
 import Profile from './components/pages/Profile';
 import Footer from './components/Footer';
-import AuthContextProvider from './contexts/AuthContext';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import Feeds from './components/pages/Feeds';
+import AuthContextProvider from './contexts/AuthContext';
 
 function App() {
   return (
