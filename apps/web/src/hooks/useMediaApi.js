@@ -20,10 +20,6 @@ export function useMediaApi() {
         },
       );
 
-      if (resp.data) {
-        console.log(resp.data);
-      }
-
       return resp.data.data;
     } catch (err) {
       console.error(err);

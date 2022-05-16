@@ -1,38 +1,19 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext({
+  user: null,
+  setUser: function () {},
+  login: async function () {},
+  logout: async function () {},
+});
 
 export function useAuthContext() {
   return useContext(AuthContext);
 }
 
-const fakeUser = {
-  id: 0,
-  fullname: '',
-  education: '',
-  bio: '',
-  specialization: '',
-  address: '',
-  createdAt: '2022-05-16T07:50:49.000Z',
-  updatedAt: '2022-05-16T07:50:49.000Z',
-  userId: 0,
-  orgId: null,
-  medium: {
-    id: 0,
-    source: '',
-    mimeType: '',
-    createdAt: '2022-05-16T07:50:49.000Z',
-    updatedAt: '2022-05-16T07:50:49.000Z',
-    postId: null,
-    profileId: 0,
-  },
-  connections: [],
-  posts: [],
-};
-
 const AuthContextProvider = ({children}) => {
-  const [user, setUser] = useState(fakeUser);
+  const [user, setUser] = useState(null);
 
   async function login(username, password, callback) {
     try {
@@ -44,12 +25,12 @@ const AuthContextProvider = ({children}) => {
       if (resp.data.success) {
         console.log('Login successful');
 
-        const profile = await resp.data.data;
+        const userData = await resp.data.data;
         localStorage.setItem(
           'prometheus.auth_user',
           JSON.stringify({username, password}),
         );
-        setUser(profile);
+        setUser(userData);
       }
 
       callback && callback(null);
@@ -71,6 +52,7 @@ const AuthContextProvider = ({children}) => {
       console.log(username, password);
       login(username, password);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

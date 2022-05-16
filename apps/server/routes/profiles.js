@@ -5,6 +5,18 @@ const {verifyUser} = require('../middlewares/verifyUser');
 const {createPost} = require('../services/posts.service');
 
 /**
+ * get all
+ */
+router.get('/all', async (req, res, next) => {
+  try {
+    const post = await Profile.findAll();
+    res.status(200).json({success: true, data: post});
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * Create a profile
  */
 router.post('/:username', verifyUser, async (req, res, next) => {

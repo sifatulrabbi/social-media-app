@@ -2,18 +2,29 @@ import axios from 'axios';
 import {useMediaApi} from './useMediaApi';
 import {useState} from 'react';
 import {useAuthContext} from '../contexts/AuthContext';
+import {useFeedContext} from '../contexts/FeedContext';
 
 export function usePostForm() {
   const [body, setBody] = useState('');
   const [media, setMedia] = useState('');
-  const {uploadMedia} = useMediaApi();
+  const {addMediaToPost} = useMediaApi();
   const {user} = useAuthContext();
+  const {getFeeds} = useFeedContext();
 
   async function createPost() {
     try {
-      const uploadedMedia = await uploadMedia(media);
-      console.log(uploadedMedia);
-      // const resp = await axios.post('http://localhost:8080/posts/', {});
+      const resp = await axios.post(
+        `http://localhost:8080/api/v1/profiles/${user.username}/post/`,
+        {
+          body,
+          profileId: user.id,
+        },
+      );
+      const post = resp.data.data;
+      if (media) {
+        await addMediaToPost(post.id, media);
+      }
+      await getFeeds();
     } catch (err) {
       console.error(err);
     }
@@ -31,5 +42,5 @@ export function usePostForm() {
     await createPost();
   }
 
-  return {handlePostForm, setMedia, media};
+  return {handlePostForm, setMedia, media, setBody, body};
 }

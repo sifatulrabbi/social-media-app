@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {v4} from 'uuid';
 import {useAuthContext} from '../../../contexts/AuthContext';
 import {AiOutlineAppstore, AiOutlineUser, AiOutlineBell} from 'react-icons/ai';
 import {FiSettings} from 'react-icons/fi';
@@ -12,25 +11,36 @@ const SideNavBtn = () => {
         to={`/feed`}
         className={`hover:bg-gray-100 px-6 py-3 gap-6 flex justify-between items-center transition-colors`}
       >
-        <AiOutlineAppstore className="text-xl" /> Home
+        <AiOutlineAppstore className="text-xl" />
+        Home
       </Link>
       <Link
         to={`/feed`}
         className={`hover:bg-gray-100 px-6 py-3 gap-6 flex justify-between items-center transition-colors`}
       >
-        <AiOutlineUser className="text-xl" /> Profile
+        <AiOutlineUser className="text-xl" />
+        Profile
       </Link>
       <Link
         to={`/feed`}
         className={`hover:bg-gray-100 px-6 py-3 gap-6 flex justify-between items-center transition-colors`}
       >
-        <AiOutlineBell className="text-xl" /> Colleagues
+        <AiOutlineBell className="text-xl" />
+        Colleagues
       </Link>
       <Link
         to={`/feed`}
         className={`hover:bg-gray-100 px-6 py-3 gap-6 flex justify-between items-center transition-colors`}
       >
-        <FiSettings className="text-xl" /> Settings
+        <FiSettings className="text-xl" />
+        Settings
+      </Link>
+      <Link
+        to={`/logout`}
+        className={`hover:bg-gray-100 px-6 py-3 gap-6 flex justify-between items-center transition-colors`}
+      >
+        <FiSettings className="text-xl" />
+        Logout
       </Link>
     </>
   );
@@ -41,7 +51,7 @@ const LeftSideBar = () => {
   const [mediaUrl, setMediaUrl] = useState('');
 
   useEffect(() => {
-    setMediaUrl(`http://localhost:8080/api/v1/media/${user.medium.id}`);
+    setMediaUrl(`http://localhost:8080/api/v1/media/${user.profile.medium.id}`);
   }, [user]);
 
   return (
@@ -58,7 +68,7 @@ const LeftSideBar = () => {
         />
       </div>
       <h6 className="text-textPrimary font-bold mb-[6vh] px-6">
-        {user.fullname}
+        {user.profile.fullname}
       </h6>
       <SideNavBtn />
     </aside>

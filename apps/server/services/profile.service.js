@@ -59,11 +59,12 @@ profilesService.getProfileWithUsername = async function (username) {
     where: {username},
     include: Profile,
   });
+
   if (!user || !user.profile) {
     return null;
   }
   const profile = await this.getFullProfile(user.profile.id);
-  return profile;
+  return {...user.get(), profile};
 };
 
 profilesService.addToOrg = async function (profile, orgId) {

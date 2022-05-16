@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 
-const FeedContext = React.createContext(null);
+const FeedContext = React.createContext({
+  feeds: [],
+  getFeeds: async function () {},
+});
 
 export const useFeedContext = () => React.useContext(FeedContext);
 
@@ -21,7 +24,9 @@ const FeedContextProvider = ({children}) => {
   }, []);
 
   return (
-    <FeedContext.Provider value={{feeds}}>{children}</FeedContext.Provider>
+    <FeedContext.Provider value={{feeds, getFeeds}}>
+      {children}
+    </FeedContext.Provider>
   );
 };
 

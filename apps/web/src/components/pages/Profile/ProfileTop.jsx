@@ -11,7 +11,7 @@ const AvatarGroup = () => {
   const [mediaUrl, setMediaUrl] = useState('');
 
   useEffect(() => {
-    setMediaUrl(`http://localhost:8080/api/v1/media/${user.medium.id}`);
+    setMediaUrl(`http://localhost:8080/api/v1/media/${user.profile.medium.id}`);
   }, [user]);
 
   return (
@@ -24,17 +24,19 @@ const AvatarGroup = () => {
       />
       {/* name */}
       <h6 className="text-xl font-bold font-display text-textPrimary">
-        {user.fullname}
+        {user.profile.fullname}
       </h6>
       {/* Specialization */}
-      <span className="font-bold">{user.specialization}</span>
+      <span className="font-bold">{user.profile.specialization}</span>
       {/* Location */}
-      <span>{user.address}</span>
+      <span>{user.profile.address}</span>
     </div>
   );
 };
 
-const ActionsGroup = ({colleagueCount}) => {
+const ActionsGroup = () => {
+  const {user} = useAuthContext();
+
   return (
     <div className="flex flex-col justify-start items-end gap-6">
       {/* action top */}
@@ -42,7 +44,9 @@ const ActionsGroup = ({colleagueCount}) => {
       <div className="flex flex-col items-end gap-2 lg:flex-row lg:items-center">
         <div className="text-[#00A30F]">
           Colleagues{' '}
-          <span className="font-bold font-display">{colleagueCount}</span>
+          <span className="font-bold font-display">
+            {user.profile.connections.length}
+          </span>
         </div>
         <div className="h-1 w-1 rounded-full bg-black hidden lg:block" />
         <button className="text-[#00A30F]">Contact information</button>
@@ -62,6 +66,8 @@ const ActionsGroup = ({colleagueCount}) => {
 };
 
 const ProfileTop = () => {
+  const {user} = useAuthContext();
+
   return (
     <div className="flex flex-col">
       {/* Profile top part */}
@@ -83,22 +89,11 @@ const ProfileTop = () => {
       {/* bottom part of profile top */}
       <div className="flex flex-row justify-between items-start p-4">
         <AvatarGroup />
-        <ActionsGroup colleagueCount={123} />
+        <ActionsGroup />
       </div>
       {/* bio box */}
       <div className="p-4">
-        <p className="p-4 bg-gray-100/80 rounded-lg">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore
-          praesentium architecto accusamus fugit libero beatae impedit corporis
-          soluta totam cupiditate quod, ex eveniet excepturi accusantium dicta
-          quasi error aliquid exercitationem nulla quaerat molestias iure, in
-          perspiciatis quidem. Fugiat tempora quod labore, autem eveniet
-          veritatis ipsa facere quis consequuntur perferendis ex, iusto nihil
-          odit pariatur quibusdam nam velit sequi quas sunt minus nostrum,
-          explicabo beatae! Quas iste veniam sunt tempore recusandae sequi
-          accusantium laborum harum, rerum perferendis, repudiandae porro
-          molestiae maxime!
-        </p>
+        <p className="p-4 bg-gray-100/80 rounded-lg">{user.profile.bio}</p>
       </div>
     </div>
   );
