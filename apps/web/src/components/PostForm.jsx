@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {useAuthContext} from '../contexts/AuthContext';
 import {
   AiOutlinePlus,
@@ -6,11 +6,14 @@ import {
   AiFillAudio,
   AiFillVideoCamera,
 } from 'react-icons/ai';
+import {usePosts} from '../hooks/usePosts';
 
 const PostForm = () => {
-  const [file, setFile] = useState();
   const {user} = useAuthContext();
-  const uploadRef = useRef(null);
+  const uploadImageRef = useRef(null);
+  const uploadAudioRef = useRef(null);
+  const uploadVideoRef = useRef(null);
+  const {handlePostForm, setMedia} = usePosts();
 
   return (
     <div className="rounded-lg border-[1px] p-4 mx-auto max-w-3xl flex flex-row gap-4">
@@ -23,34 +26,32 @@ const PostForm = () => {
         <h6 className="text-textPrimary font-bold mb-6">
           {user?.username || 'Bart Simpson'}
         </h6>
-        <form className="w-full">
+        <form className="w-full" onSubmit={handlePostForm}>
           <textarea
             placeholder="Write text..."
             className="w-full resize-none border-[1px] rounded-lg outline-none p-3"
+            required
           ></textarea>
           <input
-            ref={uploadRef}
+            ref={uploadImageRef}
             type="file"
             className="hidden"
-            value={file}
             accept="image/*"
-            onChange={(e) => setFile(e.target.value)}
+            onChange={(e) => setMedia(e.target.files[0])}
           />
           <input
-            ref={uploadRef}
+            ref={uploadVideoRef}
             type="file"
             className="hidden"
-            value={file}
             accept="video/*"
-            onChange={(e) => setFile(e.target.value)}
+            onChange={(e) => setMedia(e.target.files[0])}
           />
           <input
-            ref={uploadRef}
+            ref={uploadAudioRef}
             type="file"
             className="hidden"
-            value={file}
             accept="audio/*"
-            onChange={(e) => setFile(e.target.value)}
+            onChange={(e) => setMedia(e.target.files[0])}
           />
           <div className="flex items-center justify-between">
             <button
@@ -61,14 +62,23 @@ const PostForm = () => {
               Creat post
             </button>
             <div className="flex flex-row gap-4 items-center">
-              <button type="button" onClick={() => uploadRef.current.click()}>
+              <button
+                type="button"
+                onClick={() => uploadImageRef.current.click()}
+              >
                 <AiFillCamera className="text-2xl fill-primary" />
               </button>
-              <button type="button" onClick={() => uploadRef.current.click()}>
-                <AiFillAudio className="text-2xl fill-primary" />
-              </button>
-              <button type="button" onClick={() => uploadRef.current.click()}>
+              <button
+                type="button"
+                onClick={() => uploadVideoRef.current.click()}
+              >
                 <AiFillVideoCamera className="text-2xl fill-primary" />
+              </button>
+              <button
+                type="button"
+                onClick={() => uploadAudioRef.current.click()}
+              >
+                <AiFillAudio className="text-2xl fill-primary" />
               </button>
             </div>
           </div>

@@ -8,19 +8,22 @@ import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import Feeds from './components/pages/Feeds';
 import AuthContextProvider from './contexts/AuthContext';
+import PostsContextProvider from './contexts/PostsContext';
 
 function App() {
   return (
     <AuthContextProvider>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/feed" element={<Feeds />} />
-        <Route path="/colleagues" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <PostsContextProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/feed" element={<Feeds />} />
+          <Route path="/colleagues" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </PostsContextProvider>
       <Footer />
     </AuthContextProvider>
   );

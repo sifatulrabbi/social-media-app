@@ -14,7 +14,7 @@ router.post('/', upload.single('media'), async (req, res, next) => {
     const media = await Media.create({source, mimeType});
 
     // Send response
-    res.status(200).json({success: true, mediaId: media.id, source});
+    res.status(200).json({success: true, data: media});
   } catch (err) {
     next(err);
   }
