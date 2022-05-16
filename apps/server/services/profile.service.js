@@ -59,7 +59,7 @@ profilesService.getProfileWithUsername = async function (username) {
     where: {username},
     include: Profile,
   });
-  if (!user || !user.profile.id) {
+  if (!user || !user.profile) {
     return null;
   }
   const profile = await this.getFullProfile(user.profile.id);

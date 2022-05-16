@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
-const User = require('./models').User;
+const {User, Profile} = require('./models');
 const _ = require('lodash');
+const profileService = require('./services/profile.service');
 
 /**
  * Verify function for verifying the user login
@@ -21,8 +22,8 @@ module.exports.verify = async function (username, password, done) {
       if (enteredPassword !== user.hash) {
         done(new Error('Incorrect password'));
       } else {
-        const data = _.omit(user.get(), 'hash', 'salt');
-        done(null, data);
+        const profile = await profileService.getProfileWithUsername(username);
+        done(null, profile);
       }
     }
   } catch (err) {
@@ -33,7 +34,16 @@ module.exports.verify = async function (username, password, done) {
 
 module.exports.createUser = async function (signUpData, done) {
   try {
-    const {username, email, password} = signUpData;
+    const {
+      username,
+      email,
+      password,
+      fullname,
+      bio,
+      education,
+      specialization,
+      address,
+    } = signUpData;
     // hash password
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
@@ -44,8 +54,19 @@ module.exports.createUser = async function (signUpData, done) {
       salt,
       hash,
     });
+
+    // create user profile
+    const profile = await Profile.create({
+      userId: user.id,
+      fullname,
+      bio,
+      education,
+      specialization,
+      address,
+    });
+
     const data = _.omit(user.get(), 'hash', 'salt');
-    done(null, data);
+    done(null, {...data, profile: profile});
   } catch (err) {
     done(err);
   }

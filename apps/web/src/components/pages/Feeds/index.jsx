@@ -1,9 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import LeftSideBar from './LeftSideBar';
 import PostForm from '../../PostForm';
 import Post from '../../Post';
+import {useAuthContext} from '../../../contexts/AuthContext';
+import {useNavigate} from 'react-router-dom';
 
-const index = () => {
+const Feeds = () => {
+  const {user} = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   return (
     <>
       <div className="mt-[100px]"></div>
@@ -30,4 +41,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Feeds;

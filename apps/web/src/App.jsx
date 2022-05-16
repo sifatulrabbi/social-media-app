@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import Feeds from './components/pages/Feeds';
+import Colleagues from './components/pages/Colleagues';
 import AuthContextProvider from './contexts/AuthContext';
 import PostsContextProvider from './contexts/PostsContext';
 
@@ -17,11 +18,11 @@ function App() {
       <PostsContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/feed" element={<Feeds />} />
-          <Route path="/colleagues" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/feed" element={<Feeds />} />
+          <Route path="/colleagues" element={<Colleagues />} />
         </Routes>
       </PostsContextProvider>
       <Footer />

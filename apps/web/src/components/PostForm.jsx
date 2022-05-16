@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useAuthContext} from '../contexts/AuthContext';
 import {
   AiOutlinePlus,
@@ -14,18 +14,21 @@ const PostForm = () => {
   const uploadAudioRef = useRef(null);
   const uploadVideoRef = useRef(null);
   const {handlePostForm, setMedia} = usePosts();
+  const [mediaUrl, setMediaUrl] = useState('');
+
+  useEffect(() => {
+    setMediaUrl(`http://localhost:8080/api/v1/media/${user.medium.id}`);
+  }, [user]);
 
   return (
     <div className="rounded-lg border-[1px] p-4 mx-auto max-w-3xl flex flex-row gap-4">
       <img
-        src={user?.avatar || ''}
+        src={mediaUrl}
         alt=""
         className="h-[70px] w-[70px] rounded-full bg-gray-300"
       />
       <div className="flex flex-col w-full">
-        <h6 className="text-textPrimary font-bold mb-6">
-          {user?.username || 'Bart Simpson'}
-        </h6>
+        <h6 className="text-textPrimary font-bold mb-6">{user.fullname}</h6>
         <form className="w-full" onSubmit={handlePostForm}>
           <textarea
             placeholder="Write text..."

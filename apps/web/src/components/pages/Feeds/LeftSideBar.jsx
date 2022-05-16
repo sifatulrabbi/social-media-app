@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {v4} from 'uuid';
 import {useAuthContext} from '../../../contexts/AuthContext';
@@ -38,6 +38,11 @@ const SideNavBtn = () => {
 
 const LeftSideBar = () => {
   const {user} = useAuthContext();
+  const [mediaUrl, setMediaUrl] = useState('');
+
+  useEffect(() => {
+    setMediaUrl(`http://localhost:8080/api/v1/media/${user.medium.id}`);
+  }, [user]);
 
   return (
     <aside
@@ -45,7 +50,7 @@ const LeftSideBar = () => {
     >
       <div className="flex flex-col justify-center px-6">
         <img
-          src=""
+          src={mediaUrl}
           alt=""
           className="rounded-full bg-gray-300"
           height="80"
@@ -53,7 +58,7 @@ const LeftSideBar = () => {
         />
       </div>
       <h6 className="text-textPrimary font-bold mb-[6vh] px-6">
-        {user?.username || 'Bart Simpson'}
+        {user.fullname}
       </h6>
       <SideNavBtn />
     </aside>

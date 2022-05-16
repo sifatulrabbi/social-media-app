@@ -1,26 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {profileCover} from '../../../images';
 import {MdOutlineAddAPhoto} from 'react-icons/md';
 import {AiOutlinePlus} from 'react-icons/ai';
 import {FiEdit} from 'react-icons/fi';
+import {useAuthContext} from '../../../contexts/AuthContext';
+import {Link} from 'react-router-dom';
 
 const AvatarGroup = () => {
+  const {user} = useAuthContext();
+  const [mediaUrl, setMediaUrl] = useState('');
+
+  useEffect(() => {
+    setMediaUrl(`http://localhost:8080/api/v1/media/${user.medium.id}`);
+  }, [user]);
+
   return (
-    <div className="flex flex-col relative gap-1 mt-[40px]">
+    <div className="flex flex-col relative gap-1 min-w-[100px] mt-[40px]">
       {/* avatar */}
       <img
-        src=""
+        src={mediaUrl}
         alt=""
         className="w-[100px] h-[100px] absolute top-[-140%] rounded-full bg-gray-300"
       />
       {/* name */}
       <h6 className="text-xl font-bold font-display text-textPrimary">
-        Bart Simpson
+        {user.fullname}
       </h6>
       {/* Specialization */}
-      <span className="font-bold">Oncologist</span>
+      <span className="font-bold">{user.specialization}</span>
       {/* Location */}
-      <span>Doha, Qatar</span>
+      <span>{user.address}</span>
     </div>
   );
 };
@@ -44,9 +53,9 @@ const ActionsGroup = ({colleagueCount}) => {
         <button className="btn-secondary px-6 gap-4 w-full lg:w-max">
           Edit <FiEdit className="text-primary text-xl" />
         </button>
-        <button className="btn-primary px-4 gap-4">
+        <Link to="/feed" className="btn-primary px-4 gap-4">
           Add post <AiOutlinePlus className="fill-white text-xl" />
-        </button>
+        </Link>
       </div>
     </div>
   );
