@@ -30,7 +30,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const posts = await Post.findAll({
-      include: [Comment, Like, Share],
+      include: [Comment, Like, Share, Media],
     });
     res.status(200).json({success: true, data: posts});
   } catch (err) {

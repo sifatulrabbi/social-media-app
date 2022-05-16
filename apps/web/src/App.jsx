@@ -9,13 +9,13 @@ import Register from './components/pages/Register';
 import Feeds from './components/pages/Feeds';
 import Colleagues from './components/pages/Colleagues';
 import AuthContextProvider from './contexts/AuthContext';
-import PostsContextProvider from './contexts/PostsContext';
+import FeedContextProvider from './contexts/FeedContext';
 
 function App() {
   return (
     <AuthContextProvider>
       <Navbar />
-      <PostsContextProvider>
+      <FeedContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -24,7 +24,7 @@ function App() {
           <Route path="/feed" element={<Feeds />} />
           <Route path="/colleagues" element={<Colleagues />} />
         </Routes>
-      </PostsContextProvider>
+      </FeedContextProvider>
       <Footer />
     </AuthContextProvider>
   );

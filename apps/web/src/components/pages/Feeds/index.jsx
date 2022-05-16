@@ -4,10 +4,13 @@ import PostForm from '../../PostForm';
 import Post from '../../Post';
 import {useAuthContext} from '../../../contexts/AuthContext';
 import {useNavigate} from 'react-router-dom';
+import {useFeedContext} from '../../../contexts/FeedContext';
+import {v4} from 'uuid';
 
 const Feeds = () => {
   const {user} = useAuthContext();
   const navigate = useNavigate();
+  const {feeds} = useFeedContext();
 
   useEffect(() => {
     if (!user) {
@@ -26,15 +29,7 @@ const Feeds = () => {
         <PostForm />
         {/* posts */}
         <div className="flex flex-col mt-[5vh] gap-4">
-          <Post
-            postedBy="Jimmy Jones"
-            createdAt={new Date()}
-            shares={['', '', '']}
-            likes={['', '', '']}
-            comments={['', '', '']}
-            medium={{}}
-            body="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum haurvived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-          />
+          {feeds && feeds.map((post) => <Post key={v4()} {...post} />)}
         </div>
       </div>
     </>

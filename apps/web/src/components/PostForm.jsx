@@ -6,24 +6,20 @@ import {
   AiFillAudio,
   AiFillVideoCamera,
 } from 'react-icons/ai';
-import {usePosts} from '../hooks/usePosts';
+import {usePostForm, usePost} from '../hooks';
 
 const PostForm = () => {
   const {user} = useAuthContext();
   const uploadImageRef = useRef(null);
   const uploadAudioRef = useRef(null);
   const uploadVideoRef = useRef(null);
-  const {handlePostForm, setMedia} = usePosts();
-  const [mediaUrl, setMediaUrl] = useState('');
-
-  useEffect(() => {
-    setMediaUrl(`http://localhost:8080/api/v1/media/${user.medium.id}`);
-  }, [user]);
+  const {handlePostForm, setMedia} = usePostForm();
+  const {getMediaUrl} = usePost();
 
   return (
     <div className="rounded-lg border-[1px] p-4 mx-auto max-w-3xl flex flex-row gap-4">
       <img
-        src={mediaUrl}
+        src={getMediaUrl(user.medium.id)}
         alt=""
         className="h-[70px] w-[70px] rounded-full bg-gray-300"
       />

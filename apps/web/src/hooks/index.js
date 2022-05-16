@@ -1,2 +1,3 @@
 export * from './useMediaApi';
-export * from './usePosts';
+export * from './usePostForm';
+export * from './usePost';

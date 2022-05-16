@@ -59,6 +59,21 @@ router.get('/:username', async (req, res, next) => {
 });
 
 /**
+ * Get a profile with id
+ */
+router.get('/:id', async (req, res, next) => {
+  try {
+    const profile = await Profile.findOne({where: {id: req.params.id}});
+
+    profile
+      ? res.status(200).json({success: true, data: profile})
+      : res.status(404).json({success: false, message: 'User not found'});
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * Update a profile
  */
 router.put('/:username', verifyUser, async (req, res, next) => {
