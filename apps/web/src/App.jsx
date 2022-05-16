@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import AuthContextProvider from './contexts/AuthContext';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
+import Feeds from './components/pages/Feeds';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/feed" element={<Home />} />
+        <Route path="/feed" element={<Feeds />} />
         <Route path="/colleagues" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
