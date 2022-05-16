@@ -17,11 +17,13 @@ const ColleaguesView = () => {
     }
   }
 
-  async function sendConnectionReq() {
+  async function sendConnectionReq(profileId) {
     try {
       const resp = await axios.post(
         `http://localhost:8080/api/v1/profiles/${user.username}/connections`,
+        {profileId},
       );
+      console.log(resp.data.data);
     } catch (err) {
       console.error(err);
     }
@@ -44,7 +46,7 @@ const ColleaguesView = () => {
             </h6>
             <p className="text-sm">{profile.specialization}</p>
           </div>
-          <button>
+          <button onClick={() => sendConnectionReq(profile.id)}>
             <ImUserPlus className="fill-primary" />
           </button>
         </div>
