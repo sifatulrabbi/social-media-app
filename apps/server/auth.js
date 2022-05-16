@@ -43,6 +43,7 @@ module.exports.createUser = async function (signUpData, done) {
       education,
       specialization,
       address,
+      type,
     } = signUpData;
     // hash password
     const salt = await bcrypt.genSalt(10);
@@ -63,6 +64,7 @@ module.exports.createUser = async function (signUpData, done) {
       education,
       specialization,
       address,
+      type,
     });
 
     const data = _.omit(user.get(), 'hash', 'salt');

@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 const AuthContext = createContext({
   user: null,
@@ -14,6 +15,7 @@ export function useAuthContext() {
 
 const AuthContextProvider = ({children}) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   async function login(username, password, callback) {
     try {
@@ -42,6 +44,7 @@ const AuthContextProvider = ({children}) => {
 
   function logout() {
     localStorage.removeItem('prometheus.auth_user');
+    navigate('/');
   }
 
   useEffect(() => {

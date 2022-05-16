@@ -37,6 +37,14 @@ const Register = () => {
           onChange={(e) => reg.setPassword(e.target.value)}
           required
         />
+        <select
+          className="rounded-lg w-full border-[1px] p-3 outline-none bg-white"
+          required
+        >
+          <option value="">Select one</option>
+          <option value="Doctor">Doctor</option>
+          <option value="Organization">Organization</option>
+        </select>
         <input
           className="rounded-lg w-full border-[1px] p-3 outline-none"
           type="text"
@@ -61,6 +69,7 @@ const Register = () => {
           name="specialization"
           placeholder="Specialization"
           value={reg.specialization}
+          required
           onChange={(e) => reg.setSpecialization(e.target.value)}
         />
         <input
@@ -80,6 +89,7 @@ const Register = () => {
             id="media"
             placeholder="Avatar"
             accept="image/*"
+            required
             onChange={(e) => reg.setMedia(e.target.files[0])}
           />
         </div>
@@ -88,6 +98,7 @@ const Register = () => {
           name="bio"
           placeholder="Bio"
           value={reg.bio}
+          required
           onChange={(e) => reg.setBio(e.target.value)}
         ></textarea>
         <button

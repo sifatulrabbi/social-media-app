@@ -22,11 +22,13 @@ const Colleagues = () => {
   }, [user, navigate]);
 
   return (
-    <div className="max-w-3xl bg-white shadow-md flex flex-col gap-4">
-      {user.profile.connections.map((item) => (
-        <ColleagueCard key={v4()} {...item} />
-      ))}
-    </div>
+    user && (
+      <div className="max-w-3xl bg-white shadow-md flex flex-col gap-4">
+        {user.profile.connections.map((item) => (
+          <ColleagueCard key={v4()} {...item} />
+        ))}
+      </div>
+    )
   );
 };
 

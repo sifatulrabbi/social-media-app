@@ -16,3 +16,4 @@ export {default as settings} from './settings.png';
 export {default as interests} from './interests.png';
 export {default as cert} from './cert.png';
 export {default as education} from './education.png';
+export {default as grayAvatar} from './gray.png';

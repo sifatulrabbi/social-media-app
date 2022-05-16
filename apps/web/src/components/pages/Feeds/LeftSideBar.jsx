@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useAuthContext} from '../../../contexts/AuthContext';
 import {AiOutlineAppstore, AiOutlineUser, AiOutlineBell} from 'react-icons/ai';
-import {FiSettings} from 'react-icons/fi';
+import {FiSettings, FiLogOut} from 'react-icons/fi';
 
 const SideNavBtn = () => {
+  const {logout} = useAuthContext();
+
   return (
     <>
       <Link
@@ -35,13 +37,14 @@ const SideNavBtn = () => {
         <FiSettings className="text-xl" />
         Settings
       </Link>
-      <Link
+      <button
         to={`/logout`}
         className={`hover:bg-gray-100 px-6 py-3 gap-6 flex justify-between items-center transition-colors`}
+        onClick={logout}
       >
-        <FiSettings className="text-xl" />
+        <FiLogOut className="text-xl" />
         Logout
-      </Link>
+      </button>
     </>
   );
 };

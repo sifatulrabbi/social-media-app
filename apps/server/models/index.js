@@ -3,7 +3,6 @@ const {db} = require('../db');
 const tables = {
   User: require('./User').User,
   Post: require('./Post').Post,
-  Organization: require('./Organization').Organization,
   Like: require('./Like').Like,
   Comment: require('./Comment').Comment,
   Profile: require('./Profile').Profile,

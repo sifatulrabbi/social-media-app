@@ -35,6 +35,12 @@ const Profile = db.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    // Type of the profile
+    // either Organization or doctor
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     // Specialization
     // If no specialization is given
     // then the the profile will have a 'Physician' specialization

@@ -1,4 +1,5 @@
 import React from 'react';
+import {grayAvatar} from '../images';
 import {BsThreeDotsVertical} from 'react-icons/bs';
 import {
   AiOutlineLike,
@@ -6,8 +7,11 @@ import {
   AiOutlineShareAlt,
 } from 'react-icons/ai';
 import {usePost} from '../hooks/usePost';
+import {useUtils} from '../hooks';
+import {v4} from 'uuid';
 
 const Post = ({
+  id,
   postedBy,
   profileAvatar,
   createdAt,
@@ -18,7 +22,25 @@ const Post = ({
   body,
 }) => {
   const {getMediaUrl, verifyMimeType} = usePost();
-  const avatarUrl = profileAvatar ? getMediaUrl(profileAvatar) : null;
+  const {addComment, addLike, addShare} = useUtils();
+  const [comment, setComment] = React.useState('');
+  const avatarUrl =
+    profileAvatar === 0
+      ? grayAvatar
+      : profileAvatar
+      ? getMediaUrl(profileAvatar)
+      : null;
+
+  async function submitComment(e) {
+    e.preventDefault();
+
+    await addComment(id, comment);
+    setComment('');
+  }
+
+  async function handleLike() {
+    await addLike(id);
+  }
 
   return (
     <div className="flex flex-col rounded-lg border-[1px] p-4 relative">
@@ -68,8 +90,34 @@ const Post = ({
       </div>
 
       {/* bottom */}
-      <div className="flex flex-row justify-end gap-6">
-        <button className="text-2xl relative">
+      <div
+        className="flex flex-row justify-end gap-6 items-center mt-6"
+        onSubmit={submitComment}
+      >
+        <form
+          action=""
+          className="w-full flex flex-row items-center gap-2 bg-gray-100/80 px-3 py-2 rounded-md"
+        >
+          <input
+            type="text"
+            name="comment"
+            placeholder="Write comment"
+            required
+            className="w-full outline-none bg-gray-100/80 text-sm"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button type="submit" className="text-2xl relative">
+            <AiOutlineMessage className="relative fill-gray-400 hover:fill-primary" />
+            {comments && (
+              <span className="text-xs absolute font-bold -right-2 bottom-0 text-gray-400">
+                {comments.length}
+              </span>
+            )}
+          </button>
+        </form>
+
+        <button className="text-2xl relative" onClick={handleLike}>
           <AiOutlineLike className="relative fill-gray-400 hover:fill-primary" />
           {likes && (
             <span className="text-xs absolute font-bold -right-2 bottom-0 text-gray-400">
@@ -78,16 +126,7 @@ const Post = ({
           )}
         </button>
 
-        <button className="text-2xl relative">
-          <AiOutlineMessage className="relative fill-gray-400 hover:fill-primary" />
-          {comments && (
-            <span className="text-xs absolute font-bold -right-2 bottom-0 text-gray-400">
-              {comments.length}
-            </span>
-          )}
-        </button>
-
-        <button className="text-2xl relative">
+        <button className="text-2xl relative" onClick={() => addShare(id)}>
           <AiOutlineShareAlt className="relative fill-gray-400 hover:fill-primary" />
           {shares && (
             <span className="text-xs absolute font-bold -right-2 bottom-0 text-gray-400">
@@ -95,6 +134,15 @@ const Post = ({
             </span>
           )}
         </button>
+      </div>
+      <div className="flex flex-col p-4 w-full">
+        {comments &&
+          comments.length > 0 &&
+          comments.map((comment) => (
+            <div key={v4()} className="text-sm w-full">
+              {comment.body}
+            </div>
+          ))}
       </div>
     </div>
   );

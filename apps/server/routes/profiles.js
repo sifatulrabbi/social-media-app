@@ -162,31 +162,27 @@ router.get('/:username/connections', verifyUser, async (req, res, next) => {
 });
 
 /**
- * Add to an organization
+ * Create a post
  */
-router.post('/:username/org', verifyUser, async (req, res, next) => {
+router.post('/:username/post', verifyUser, async (req, res, next) => {
   try {
-    const {orgId} = req.body;
-    if (!orgId) {
-      res.status(400).json({
-        success: false,
-        message: 'Required filed "orgId" not found',
-      });
-      return;
-    }
+    const post = await createPost(req.user.profile, req.body);
+    if (post) {
+      const anonym = anonymousPost(post.body);
 
-    const updatedProfile = await profilesService.addToOrg(
-      req.user.profile,
-      orgId,
-    );
+      if (anonym) {
+        await post.update({
+          postedBy: 'anonymous',
+          profileAvatar: 0,
+        });
+      }
 
-    if (!updatedProfile) {
-      res.status(400).json({
-        success: false,
-        message: 'Unable to add to the organization',
-      });
+      res.status(200).json({success: true, data: post.get()});
     } else {
-      res.status(200).json({success: true, data: updatedProfile});
+      req.status(400).json({
+        success: false,
+        message: 'Unable to create post',
+      });
     }
   } catch (err) {
     next(err);
@@ -194,20 +190,15 @@ router.post('/:username/org', verifyUser, async (req, res, next) => {
 });
 
 /**
- * Create a post
+ * Find out if the post is anonymous or public
+ * @param {string} body
+ * @returns {boolean}
  */
-router.post('/:username/post', verifyUser, async (req, res, next) => {
-  try {
-    const post = await createPost(req.user.profile, req.body);
-    post
-      ? res.status(200).json({success: true, data: post})
-      : req.status(400).json({
-          success: false,
-          message: 'Unable to create post',
-        });
-  } catch (err) {
-    next(err);
-  }
-});
+function anonymousPost(body) {
+  const arr = body.split(' ');
+
+  if (arr[0] === '#anonymous') return true;
+  return false;
+}
 
 module.exports = router;
