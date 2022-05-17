@@ -2,10 +2,12 @@ import axios from 'axios';
 import React from 'react';
 import {BsThreeDotsVertical} from 'react-icons/bs';
 import {useAuthContext} from '../contexts/AuthContext';
+import {useFeedContext} from '../contexts/FeedContext';
 
 const PostRemove = ({id}) => {
   const {getProfile} = useAuthContext();
   const [show, setShow] = React.useState(false);
+  const {getFeeds} = useFeedContext();
 
   /**
    * Remove post function
@@ -18,6 +20,7 @@ const PostRemove = ({id}) => {
 
       if (resp.data.success) {
         await getProfile();
+        await getFeeds();
       }
     } catch (err) {
       console.error(err);
