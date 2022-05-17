@@ -7,7 +7,6 @@ const {
   Connection,
   Profile,
   User,
-  Organization,
 } = require('../models');
 
 const profilesService = {};
@@ -65,25 +64,6 @@ profilesService.getProfileWithUsername = async function (username) {
   }
   const profile = await this.getFullProfile(user.profile.id);
   return {...user.get(), profile};
-};
-
-profilesService.addToOrg = async function (profile, orgId) {
-  // get the profile with id
-  if (!profile) return null;
-  const org = await Organization.findByPk(orgId);
-  if (!org) return null;
-
-  /**
-   * @type {string[]}
-   */
-  const allowedTypes = org.get().allowedProfiles.split(',');
-  if (allowedTypes.includes(profile.specialization)) {
-    // add organization
-    const updatedProfile = await profile.update({orgId});
-
-    return updatedProfile;
-  }
-  return null;
 };
 
 profilesService.getUserWithProfile = async function (username) {

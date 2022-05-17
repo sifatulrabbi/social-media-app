@@ -134,6 +134,31 @@ router.post('/:username/connections', verifyUser, async (req, res, next) => {
       return;
     }
 
+    // Check for previous connections
+    const prevConnection = await Connection.findOne({
+      where: {
+        connectedWith,
+      },
+    });
+    // If find previous connection then remove the connection instead
+    if (prevConnection) {
+      await Connection.destroy({
+        where: {
+          id: prevConnection.get().id,
+          connectedWith,
+        },
+      });
+      // remove the counterpart
+      await Connection.destroy({
+        where: {
+          connectedWith: prevConnection.get().id,
+          id: connectedWith,
+        },
+      });
+      // return the response
+      return res.status(200).json({success: true});
+    }
+
     // Create the connection
     const connection = await Connection.create({
       profileId: req.user.profile.id,

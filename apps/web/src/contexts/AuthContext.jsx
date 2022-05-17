@@ -45,7 +45,7 @@ const AuthContextProvider = ({children}) => {
 
   async function getProfile() {
     const resp = await axios.get(
-      'http://localhost:8080/api/v1/profiles/usertwo',
+      `http://localhost:8080/api/v1/profiles/${user.username || ''}`,
     );
 
     if (resp.data.success) {
