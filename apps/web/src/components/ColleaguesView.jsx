@@ -10,7 +10,7 @@ const ColleaguesView = () => {
   // storing all the colleague's information
   const [profiles, setProfiles] = React.useState([]);
   // the logged in user
-  const {user} = useAuthContext();
+  const {user, getProfile} = useAuthContext();
 
   /**
    * Get all the available profiles from the database
@@ -23,6 +23,7 @@ const ColleaguesView = () => {
         const data = resp.data.data.filter(
           (item) => item.id !== user.profile.id,
         );
+
         setProfiles(data);
       }
     } catch (err) {
@@ -40,7 +41,10 @@ const ColleaguesView = () => {
         `http://localhost:8080/api/v1/profiles/${user.username}/connections`,
         {connectedWith},
       );
-      console.log(resp.data.data);
+
+      if (resp.data.success) {
+        await getProfile();
+      }
     } catch (err) {
       console.error(err);
     }
@@ -49,6 +53,7 @@ const ColleaguesView = () => {
   // Getting all the profiles on component load
   React.useEffect(() => {
     getAllProfiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
