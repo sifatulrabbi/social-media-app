@@ -25,6 +25,29 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /**
+ * DELETE a post
+ */
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const post = await Post.destroy({
+      where: {
+        id: req.params.id,
+      },
+      include: [Media, Comment, Like, Share],
+    });
+    // Send response
+    // Check for the post's existence
+    if (!post) {
+      res.status(404).json({success: false, message: 'Post not found'});
+    } else {
+      res.status(200).json({success: true, data: post});
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * GET all posts
  */
 router.get('/', async (req, res, next) => {

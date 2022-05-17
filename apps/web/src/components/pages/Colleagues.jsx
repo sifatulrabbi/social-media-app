@@ -17,7 +17,7 @@ const Colleagues = () => {
   return !user ? (
     <Navigate to="/login" />
   ) : (
-    <div className="max-w-3xl bg-white shadow-md flex flex-col gap-4">
+    <div className="max-w-3xl bg-white shadow-md flex flex-col gap-4 mt-[100px] mx-auto p-4 rounded-lg">
       {user.profile.connections.map((item) => (
         <ColleagueCard key={v4()} {...item} />
       ))}

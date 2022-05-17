@@ -7,7 +7,7 @@ const ProfilePosts = ({data}) => {
     <div className="p-4 flex flex-col gap-4">
       <h3 className="text-xl font-bold mb-6">Your posts</h3>
       {data.map((data) => (
-        <Post {...data} key={v4()} />
+        <Post {...data} key={v4()} profileTab />
       ))}
     </div>
   );

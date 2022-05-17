@@ -7,6 +7,7 @@ const AuthContext = createContext({
   setUser: function () {},
   login: async function () {},
   logout: async function () {},
+  getProfile: async function () {},
 });
 
 export function useAuthContext() {
@@ -42,6 +43,16 @@ const AuthContextProvider = ({children}) => {
     }
   }
 
+  async function getProfile() {
+    const resp = await axios.get(
+      'http://localhost:8080/api/v1/profiles/usertwo',
+    );
+
+    if (resp.data.success) {
+      setUser(resp.data.data);
+    }
+  }
+
   function logout() {
     localStorage.removeItem('prometheus.auth_user');
     navigate('/');
@@ -59,7 +70,7 @@ const AuthContextProvider = ({children}) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{user, setUser, login, logout}}>
+    <AuthContext.Provider value={{user, setUser, login, logout, getProfile}}>
       {children}
     </AuthContext.Provider>
   );

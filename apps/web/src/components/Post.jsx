@@ -1,6 +1,5 @@
 import React from 'react';
 import {grayAvatar} from '../images';
-import {BsThreeDotsVertical} from 'react-icons/bs';
 import {
   AiOutlineLike,
   AiOutlineMessage,
@@ -9,6 +8,7 @@ import {
 import {usePost} from '../hooks/usePost';
 import {useUtils} from '../hooks';
 import {v4} from 'uuid';
+import PostRemove from './PostRemove';
 
 const Post = ({
   id,
@@ -22,6 +22,7 @@ const Post = ({
   comments,
   medium,
   body,
+  profileTab,
 }) => {
   // Using the usePost hook to generate the media url
   // before showing the media to the screen we have to
@@ -58,9 +59,7 @@ const Post = ({
 
   return (
     <div className="flex flex-col rounded-lg border-[1px] p-4 relative">
-      <button className="absolute top-4 right-4">
-        <BsThreeDotsVertical className="text-xl fill-gray-400 hover:fill-primary" />
-      </button>
+      {profileTab && <PostRemove id={id} />}
 
       {/* post top */}
       <div className="flex flex-row gap-6 items-center mb-6">
