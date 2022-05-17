@@ -1,9 +1,11 @@
 import {useAuthContext} from '../contexts/AuthContext';
 import {useFeedContext} from '../contexts/FeedContext';
+import {useNotification} from '../contexts/NotificationContext';
 
 export function useUtils() {
   const {user} = useAuthContext();
   const {getFeeds} = useFeedContext();
+  const {show} = useNotification();
 
   async function addLike(postId) {
     await fetch('http://localhost:8080/api/v1/likes/', {
@@ -16,6 +18,7 @@ export function useUtils() {
         'Content-Type': 'application/json',
       },
     });
+    show('Like added');
     // update the feeds
     await getFeeds();
   }
@@ -32,6 +35,8 @@ export function useUtils() {
         'Content-Type': 'application/json',
       },
     });
+
+    show('Comment added');
     // update the feeds
     await getFeeds();
   }
@@ -47,6 +52,8 @@ export function useUtils() {
         'Content-Type': 'application/json',
       },
     });
+
+    show('Post shared');
     // update the feeds
     await getFeeds();
   }

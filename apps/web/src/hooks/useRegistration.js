@@ -3,6 +3,7 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useAuthContext} from '../contexts/AuthContext';
 import {useMediaApi} from './useMediaApi';
+import {useNotification} from '../contexts/NotificationContext';
 
 export function useRegistration() {
   const [username, setUsername] = useState('');
@@ -17,6 +18,7 @@ export function useRegistration() {
   const [media, setMedia] = useState();
   const navigate = useNavigate();
   const {login} = useAuthContext();
+  const {show} = useNotification();
 
   const {addMediaToProfile} = useMediaApi();
 
@@ -44,6 +46,7 @@ export function useRegistration() {
         await addMediaToProfile(profileId, media);
         await login(username, password);
         navigate('/profile');
+        show('Login successful!');
       }
 
       return null;

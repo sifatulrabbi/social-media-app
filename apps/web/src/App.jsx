@@ -10,23 +10,26 @@ import Feeds from './components/pages/Feeds';
 import Colleagues from './components/pages/Colleagues';
 import AuthContextProvider from './contexts/AuthContext';
 import FeedContextProvider from './contexts/FeedContext';
+import NotificationProvider from './contexts/NotificationContext';
 
 function App() {
   return (
-    <AuthContextProvider>
-      <Navbar />
-      <FeedContextProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/feed" element={<Feeds />} />
-          <Route path="/colleagues" element={<Colleagues />} />
-        </Routes>
-      </FeedContextProvider>
-      <Footer />
-    </AuthContextProvider>
+    <NotificationProvider>
+      <AuthContextProvider>
+        <Navbar />
+        <FeedContextProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/feed" element={<Feeds />} />
+            <Route path="/colleagues" element={<Colleagues />} />
+          </Routes>
+        </FeedContextProvider>
+        <Footer />
+      </AuthContextProvider>
+    </NotificationProvider>
   );
 }
 

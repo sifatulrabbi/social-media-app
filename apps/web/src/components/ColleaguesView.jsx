@@ -4,6 +4,7 @@ import {FaUser} from 'react-icons/fa';
 import {BsPersonCheckFill} from 'react-icons/bs';
 import {ImUserPlus} from 'react-icons/im';
 import {useAuthContext} from '../contexts/AuthContext';
+import {useNotification} from '../contexts/NotificationContext';
 import {v4} from 'uuid';
 
 const ColleaguesView = () => {
@@ -11,6 +12,7 @@ const ColleaguesView = () => {
   const [profiles, setProfiles] = React.useState([]);
   // the logged in user
   const {user, getProfile} = useAuthContext();
+  const {show} = useNotification();
 
   /**
    * Get all the available profiles from the database
@@ -44,6 +46,7 @@ const ColleaguesView = () => {
 
       if (resp.data.success) {
         await getProfile();
+        show('Connection added!');
       }
     } catch (err) {
       console.error(err);
