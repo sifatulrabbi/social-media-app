@@ -24,7 +24,11 @@ const SideNavBtn = ({activeName, name, link, img}) => {
   return (
     <Link to={`/profile?tab=${link}`}>
       <button
-        className={`${activeName === name ? 'active' : ''}
+        className={`${
+          activeName === name
+            ? 'bg-primary rounded-lg text-white hover:bg-primary hover:bg-opacity-80'
+            : ''
+        }
         px-6 py-3 min-w-[200px] flex justify-between hover:bg-gray-100 transition-colors`}
       >
         {name}

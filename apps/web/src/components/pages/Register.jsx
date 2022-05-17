@@ -40,6 +40,8 @@ const Register = () => {
         <select
           className="rounded-lg w-full border-[1px] p-3 outline-none bg-white"
           required
+          value={reg.type}
+          onChange={(e) => reg.setType(e.target.value)}
         >
           <option value="">Select one</option>
           <option value="Doctor">Doctor</option>

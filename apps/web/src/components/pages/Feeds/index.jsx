@@ -1,26 +1,24 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import LeftSideBar from './LeftSideBar';
 import PostForm from '../../PostForm';
 import Post from '../../Post';
 import {useAuthContext} from '../../../contexts/AuthContext';
-import {useNavigate} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {useFeedContext} from '../../../contexts/FeedContext';
 import {v4} from 'uuid';
 import ColleaguesView from '../../ColleaguesView';
 
 const Feeds = () => {
+  // logged in user
   const {user} = useAuthContext();
-  const navigate = useNavigate();
+  // collected feeds
   const {feeds} = useFeedContext();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
-
   return (
-    feeds && (
+    // if there is no feeds then their will be nothing to show on page
+    !user || !feeds ? (
+      <Navigate to="/login" />
+    ) : (
       <>
         <ColleaguesView />
         <div className="mt-[100px]"></div>

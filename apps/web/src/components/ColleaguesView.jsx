@@ -7,18 +7,33 @@ import {useAuthContext} from '../contexts/AuthContext';
 import {v4} from 'uuid';
 
 const ColleaguesView = () => {
+  // storing all the colleague's information
   const [profiles, setProfiles] = React.useState([]);
+  // the logged in user
   const {user} = useAuthContext();
 
+  /**
+   * Get all the available profiles from the database
+   */
   async function getAllProfiles() {
     try {
       const resp = await axios.get('http://localhost:8080/api/v1/profiles/all');
-      setProfiles(resp.data.data);
+
+      if (resp.data.data) {
+        const data = resp.data.data.filter(
+          (item) => item.id !== user.profile.id,
+        );
+        setProfiles(data);
+      }
     } catch (err) {
       console.error(err);
     }
   }
 
+  /**
+   * Send a create connection request
+   * @param {number | string} connectedWith
+   */
   async function sendConnectionReq(connectedWith) {
     try {
       const resp = await axios.post(
@@ -31,6 +46,7 @@ const ColleaguesView = () => {
     }
   }
 
+  // Getting all the profiles on component load
   React.useEffect(() => {
     getAllProfiles();
   }, []);
@@ -50,6 +66,8 @@ const ColleaguesView = () => {
           </div>
           <button onClick={() => sendConnectionReq(profile.id)}>
             {user.profile.connections.find(
+              // if the user is already connected with the profile then show a
+              // check mark otherwise show a send req (+) mark
               (conn) => conn.connectedWith === profile.id,
             ) ? (
               <BsPersonCheckFill className="fill-primary" />

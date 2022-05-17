@@ -29,6 +29,16 @@ const Post = db.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    // type of the profile
+    type: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    // specialization
+    specialization: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {timestamps: true},
 );

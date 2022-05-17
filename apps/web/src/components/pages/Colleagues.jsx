@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useAuthContext} from '../../contexts/AuthContext';
-import {useNavigate} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {v4} from 'uuid';
 
 const ColleagueCard = ({connectedWith}) => {
@@ -13,22 +13,15 @@ const ColleagueCard = ({connectedWith}) => {
 
 const Colleagues = () => {
   const {user} = useAuthContext();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
-
-  return (
-    user && (
-      <div className="max-w-3xl bg-white shadow-md flex flex-col gap-4">
-        {user.profile.connections.map((item) => (
-          <ColleagueCard key={v4()} {...item} />
-        ))}
-      </div>
-    )
+  return !user ? (
+    <Navigate to="/login" />
+  ) : (
+    <div className="max-w-3xl bg-white shadow-md flex flex-col gap-4">
+      {user.profile.connections.map((item) => (
+        <ColleagueCard key={v4()} {...item} />
+      ))}
+    </div>
   );
 };
 

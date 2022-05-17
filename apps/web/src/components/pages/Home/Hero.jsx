@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {heroImg} from '../../../images';
 
 const Hero = () => {
@@ -22,7 +23,9 @@ const Hero = () => {
             all kinds in the MENA region looking to connect and expand their
             professional networks.
           </p>
-          <button className="btn-primary mt-[7vh]">Sign up</button>
+          <Link to="/register" className="btn-primary mt-[7vh]">
+            Sign up
+          </Link>
         </div>
       </div>
     </section>

@@ -1,6 +1,5 @@
 const DataTypes = require('sequelize').DataTypes;
 const db = require('../db').db;
-const {GroupMember} = require('./GroupMember');
 const {Media} = require('./Media');
 const {Comment} = require('./Comment');
 const {Like} = require('./Like');
@@ -40,6 +39,7 @@ const Profile = db.define(
     type: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'Doctor',
     },
     // Specialization
     // If no specialization is given
@@ -63,12 +63,6 @@ const Profile = db.define(
 // Profile 1-1 media
 Profile.hasOne(Media, {
   foreignKey: 'profileId',
-});
-
-// Profile 1-n Group
-Profile.hasMany(GroupMember, {
-  foreignKey: 'profileId',
-  allowNull: false,
 });
 
 // Profile 1-n Like

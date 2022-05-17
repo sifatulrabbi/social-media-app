@@ -30,16 +30,12 @@ export function usePostForm() {
     }
   }
 
-  async function updatePost() {
-    try {
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   async function handlePostForm(e) {
     e.preventDefault();
     await createPost();
+
+    setBody('');
+    setMedia(null);
   }
 
   return {handlePostForm, setMedia, media, setBody, body};

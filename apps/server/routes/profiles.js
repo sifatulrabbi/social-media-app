@@ -22,9 +22,16 @@ router.get('/all', async (req, res, next) => {
 router.post('/:username', verifyUser, async (req, res, next) => {
   try {
     // get the user input
-    const {fullname, bio, education, specialization, address} = req.body;
+    const {fullname, bio, education, specialization, address, type} = req.body;
 
-    if (!fullname || !bio || !education || !specialization || !address) {
+    if (
+      !fullname ||
+      !bio ||
+      !education ||
+      !specialization ||
+      !address ||
+      !type
+    ) {
       res.status(400).json({
         success: false,
         message:
@@ -43,6 +50,7 @@ router.post('/:username', verifyUser, async (req, res, next) => {
       education,
       specialization,
       address,
+      type,
     });
 
     // send response
@@ -168,15 +176,6 @@ router.post('/:username/post', verifyUser, async (req, res, next) => {
   try {
     const post = await createPost(req.user.profile, req.body);
     if (post) {
-      const anonym = anonymousPost(post.body);
-
-      if (anonym) {
-        await post.update({
-          postedBy: 'anonymous',
-          profileAvatar: 0,
-        });
-      }
-
       res.status(200).json({success: true, data: post.get()});
     } else {
       req.status(400).json({
@@ -188,17 +187,5 @@ router.post('/:username/post', verifyUser, async (req, res, next) => {
     next(err);
   }
 });
-
-/**
- * Find out if the post is anonymous or public
- * @param {string} body
- * @returns {boolean}
- */
-function anonymousPost(body) {
-  const arr = body.split(' ');
-
-  if (arr[0] === '#anonymous') return true;
-  return false;
-}
 
 module.exports = router;

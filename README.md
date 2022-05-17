@@ -171,3 +171,32 @@ GET organization by id => get an organization
 POST organization => creates an organization
 
 PUT organization with profileId => user joins a organization
+
+## Front-end
+
+### Directory structure
+
+./
+/build/: build files ignore this dir
+/node_modules/: dependencies files ignore this dir
+
+/public/
+-----/favicon.ico: favicon for the tab title bar
+-----/index.html: main html page. js will be compiled and added to this file
+-----/manifest.json: browser manifest file
+-----/robots.txt: commands for the google crawlers
+
+/src/
+----/components
+----/contexts
+----/hooks
+----/images
+----/App.jsx
+----/index.css
+----/index.jsx
+
+/.gitignore
+/.package.json
+/postcss.config.js: PostCSS config file
+/README.md
+/tailwind.config.js: TailwindCSS config file

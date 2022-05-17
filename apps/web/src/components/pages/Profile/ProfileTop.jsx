@@ -25,6 +25,7 @@ const AvatarGroup = () => {
       {/* name */}
       <h6 className="text-xl font-bold font-display text-textPrimary">
         {user.profile.fullname}
+        <span className="text-base font-normal"> ({user.profile.type})</span>
       </h6>
       {/* Specialization */}
       <span className="font-bold">{user.profile.specialization}</span>
