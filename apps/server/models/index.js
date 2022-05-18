@@ -11,10 +11,13 @@ const tables = {
   Media: require('./Media').Media,
 };
 
+// export all the tables
+module.exports = tables;
+
 /**
  * Synchronize all the tables
  */
-(async function () {
+module.exports.syncModels = async function () {
   try {
     // Only for testing purpose.
     // This will recreate all the tables
@@ -26,7 +29,4 @@ const tables = {
   } catch (err) {
     console.error('\nError occurred while synchronizing the tables: ', err);
   }
-})();
-
-// export all the tables
-module.exports = tables;
+};

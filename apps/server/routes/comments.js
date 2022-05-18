@@ -23,7 +23,7 @@ router.post('/', async (req, res, next) => {
       body,
     });
     // send response
-    res.status(200).json({success: true, data: comment});
+    res.status(201).json({success: true, data: comment});
   } catch (err) {
     next(err);
   }

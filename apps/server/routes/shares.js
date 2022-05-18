@@ -19,7 +19,7 @@ router.post('/', async (req, res, next) => {
     // Create a share
     const share = await sharePost(postId, profileId);
     // Send response
-    res.status(200).json({success: true, data: share});
+    res.status(201).json({success: true, data: share});
   } catch (err) {
     next(err);
   }

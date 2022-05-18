@@ -54,7 +54,7 @@ router.post('/:username', verifyUser, async (req, res, next) => {
     });
 
     // send response
-    res.status(200).json({success: false, data: profile});
+    res.status(201).json({success: false, data: profile});
   } catch (err) {
     // handle errors
     next(err);
@@ -156,7 +156,7 @@ router.post('/:username/connections', verifyUser, async (req, res, next) => {
         },
       });
       // return the response
-      return res.status(200).json({success: true});
+      return res.status(201).json({success: true});
     }
 
     // Create the connection
@@ -171,7 +171,7 @@ router.post('/:username/connections', verifyUser, async (req, res, next) => {
       connectedWith: req.user.profile.id,
     });
     // Send response
-    res.status(200).json({success: true, data: connection});
+    res.status(201).json({success: true, data: connection});
   } catch (err) {
     next(err);
   }
@@ -201,7 +201,7 @@ router.post('/:username/post', verifyUser, async (req, res, next) => {
   try {
     const post = await createPost(req.user.profile, req.body);
     if (post) {
-      res.status(200).json({success: true, data: post.get()});
+      res.status(201).json({success: true, data: post.get()});
     } else {
       req.status(400).json({
         success: false,

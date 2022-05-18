@@ -23,7 +23,8 @@
     "start:server": "npm --workspace server run start:dev",
     "start:web:dev": "npm --workspace web run start",
     "start:web": "npm --workspace web run start",
-    "build:web": "npm --workspace web run build"
+    "build:web": "npm --workspace web run build",
+    "test:server": "npm --workspace server run test"
   },
   "prettier": {
     "singleQuote": true,
@@ -38,5 +39,9 @@
   ],
   "dependencies": {
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "supertest": "^6.2.3"
   }
 }
