@@ -21,7 +21,7 @@ const AuthContextProvider = ({children}) => {
   async function login(username, password, callback) {
     try {
       const resp = await axios.post(
-        'https://cf30-103-129-236-251.in.ngrok.io/api/v1/auth/login',
+        'https://prometheus-api-msql.herokuapp.com/api/v1/auth/login',
         {
           username,
           password,
@@ -48,7 +48,7 @@ const AuthContextProvider = ({children}) => {
 
   async function getProfile() {
     const resp = await axios.get(
-      `https://cf30-103-129-236-251.in.ngrok.io/api/v1/profiles/${
+      `https://prometheus-api-msql.herokuapp.com/api/v1/profiles/${
         user.username || ''
       }`,
     );

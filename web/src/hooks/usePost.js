@@ -1,6 +1,6 @@
 export function usePost() {
   function getMediaUrl(id) {
-    return `https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/${id}`;
+    return `https://prometheus-api-msql.herokuapp.com/api/v1/media/${id}`;
   }
 
   function verifyMimeType(mimeType) {

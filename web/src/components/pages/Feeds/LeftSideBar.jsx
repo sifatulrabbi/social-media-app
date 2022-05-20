@@ -10,7 +10,7 @@ const LeftSideBar = () => {
   // logout function
   const {logout} = useAuthContext();
   // stores the avatar url
-  const mediaUrl = `https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/${user.profile.medium.id}`;
+  const mediaUrl = `https://prometheus-api-msql.herokuapp.com/api/v1/media/${user.profile.medium.id}`;
 
   return (
     <aside

@@ -13,7 +13,7 @@ const FeedContextProvider = ({children}) => {
 
   async function getFeeds() {
     const resp = await axios.get(
-      'https://cf30-103-129-236-251.in.ngrok.io/api/v1/posts',
+      'https://prometheus-api-msql.herokuapp.com/api/v1/posts',
     );
 
     if (resp.data.success) {

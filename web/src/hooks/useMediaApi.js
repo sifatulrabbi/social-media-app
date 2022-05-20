@@ -11,7 +11,7 @@ export function useMediaApi() {
       formData.append('media', file);
 
       const resp = await axios.post(
-        'https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/',
+        'https://prometheus-api-msql.herokuapp.com/api/v1/media/',
         formData,
         {
           headers: {
@@ -35,7 +35,7 @@ export function useMediaApi() {
       }
 
       const resp = await axios.post(
-        `https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/${data.id}/addPost/`,
+        `https://prometheus-api-msql.herokuapp.com/api/v1/media/${data.id}/addPost/`,
         {postId},
       );
 
@@ -58,7 +58,7 @@ export function useMediaApi() {
       }
 
       const resp = await axios.post(
-        `https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/${data.id}/addProfile/`,
+        `https://prometheus-api-msql.herokuapp.com/api/v1/media/${data.id}/addProfile/`,
         {profileId},
       );
 

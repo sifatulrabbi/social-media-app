@@ -12,7 +12,7 @@ const AvatarGroup = () => {
 
   useEffect(() => {
     setMediaUrl(
-      `https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/${user.profile.medium.id}`,
+      `https://prometheus-api-msql.herokuapp.com/api/v1/media/${user.profile.medium.id}`,
     );
   }, [user]);
 

@@ -15,7 +15,7 @@ const PostRemove = ({id}) => {
   async function removePost() {
     try {
       const resp = await axios.delete(
-        `https://cf30-103-129-236-251.in.ngrok.io/api/v1/posts/${id}`,
+        `https://prometheus-api-msql.herokuapp.com/api/v1/posts/${id}`,
       );
 
       if (resp.data.success) {
