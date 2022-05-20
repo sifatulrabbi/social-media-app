@@ -20,10 +20,13 @@ const AuthContextProvider = ({children}) => {
 
   async function login(username, password, callback) {
     try {
-      const resp = await axios.post('http://localhost:8080/api/v1/auth/login', {
-        username,
-        password,
-      });
+      const resp = await axios.post(
+        'https://cf30-103-129-236-251.in.ngrok.io/api/v1/auth/login',
+        {
+          username,
+          password,
+        },
+      );
 
       if (resp.data.success) {
         console.log('Login successful');
@@ -45,7 +48,9 @@ const AuthContextProvider = ({children}) => {
 
   async function getProfile() {
     const resp = await axios.get(
-      `http://localhost:8080/api/v1/profiles/${user.username || ''}`,
+      `https://cf30-103-129-236-251.in.ngrok.io/api/v1/profiles/${
+        user.username || ''
+      }`,
     );
 
     if (resp.data.success) {

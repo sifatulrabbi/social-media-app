@@ -8,7 +8,7 @@ export function useUtils() {
   const {show} = useNotification();
 
   async function addLike(postId) {
-    await fetch('http://localhost:8080/api/v1/likes/', {
+    await fetch('https://cf30-103-129-236-251.in.ngrok.io/api/v1/likes/', {
       method: 'POST',
       body: JSON.stringify({
         profileId: user.profile.id,
@@ -24,7 +24,7 @@ export function useUtils() {
   }
 
   async function addComment(postId, body) {
-    await fetch('http://localhost:8080/api/v1/comments/', {
+    await fetch('https://cf30-103-129-236-251.in.ngrok.io/api/v1/comments/', {
       method: 'POST',
       body: JSON.stringify({
         profileId: user.profile.id,
@@ -42,7 +42,7 @@ export function useUtils() {
   }
 
   async function addShare(postId) {
-    await fetch('http://localhost:8080/api/v1/shares/', {
+    await fetch('https://cf30-103-129-236-251.in.ngrok.io/api/v1/shares/', {
       method: 'POST',
       body: JSON.stringify({
         profileId: user.profile.id,

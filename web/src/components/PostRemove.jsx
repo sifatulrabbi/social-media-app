@@ -15,7 +15,7 @@ const PostRemove = ({id}) => {
   async function removePost() {
     try {
       const resp = await axios.delete(
-        `http://localhost:8080/api/v1/posts/${id}`,
+        `https://cf30-103-129-236-251.in.ngrok.io/api/v1/posts/${id}`,
       );
 
       if (resp.data.success) {

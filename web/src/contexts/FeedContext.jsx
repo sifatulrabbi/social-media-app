@@ -12,7 +12,9 @@ const FeedContextProvider = ({children}) => {
   const [feeds, setFeeds] = React.useState(null);
 
   async function getFeeds() {
-    const resp = await axios.get('http://localhost:8080/api/v1/posts');
+    const resp = await axios.get(
+      'https://cf30-103-129-236-251.in.ngrok.io/api/v1/posts',
+    );
 
     if (resp.data.success) {
       setFeeds(resp.data.data);

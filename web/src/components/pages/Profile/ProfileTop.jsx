@@ -11,7 +11,9 @@ const AvatarGroup = () => {
   const [mediaUrl, setMediaUrl] = useState('');
 
   useEffect(() => {
-    setMediaUrl(`http://localhost:8080/api/v1/media/${user.profile.medium.id}`);
+    setMediaUrl(
+      `https://cf30-103-129-236-251.in.ngrok.io/api/v1/media/${user.profile.medium.id}`,
+    );
   }, [user]);
 
   return (

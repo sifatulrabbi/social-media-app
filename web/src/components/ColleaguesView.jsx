@@ -19,7 +19,9 @@ const ColleaguesView = () => {
    */
   async function getAllProfiles() {
     try {
-      const resp = await axios.get('http://localhost:8080/api/v1/profiles/all');
+      const resp = await axios.get(
+        'https://cf30-103-129-236-251.in.ngrok.io/api/v1/profiles/all',
+      );
 
       if (resp.data.data) {
         const data = resp.data.data.filter(
@@ -40,7 +42,7 @@ const ColleaguesView = () => {
   async function sendConnectionReq(connectedWith) {
     try {
       const resp = await axios.post(
-        `http://localhost:8080/api/v1/profiles/${user.username}/connections`,
+        `https://cf30-103-129-236-251.in.ngrok.io/api/v1/profiles/${user.username}/connections`,
         {connectedWith},
       );
 
