@@ -1,7 +1,3 @@
-# fiver-colewilliams
-
-Fiver Cole Williams
-
 ## Run the back-end
 
 **Requirements**
